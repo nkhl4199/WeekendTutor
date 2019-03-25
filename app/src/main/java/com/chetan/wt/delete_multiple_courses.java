@@ -1,15 +1,20 @@
 package com.chetan.wt;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,24 +29,30 @@ import java.util.ArrayList;
 
 public class delete_multiple_courses extends AppCompatActivity {
 
-    DatabaseReference reff, notify, temp;
+    DatabaseReference reff, notify, temp, users;
+    int stu_wallet, tutor_wallet,w;
     TutorNotification notification = new TutorNotification();
     Course course;
     ArrayList<String> key, tutorId, course_name, course_date;
-    String StudentID,cid, tid;
+    String StudentID,cid, tid, temp2;
+    ArrayList<Integer> price;
     private FirebaseAuth SID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delete_multiple_courses);
+        setTitle("Select Courses To Delete");
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.startblue1)));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         key = new ArrayList<String>();
         tutorId = new ArrayList<String>();
         course_name = new ArrayList<String>();
         course_date = new ArrayList<String>();
+        price = new ArrayList<>();
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         StudentID = user.getUid();
 
         temp = FirebaseDatabase.getInstance().getReference("Students");
@@ -50,6 +61,7 @@ public class delete_multiple_courses extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.child("name").getValue()!=null)
                 notification.setStudent_name(dataSnapshot.child("name").getValue().toString()+" unregistered for ");
+                stu_wallet = Integer.parseInt(dataSnapshot.child("wallet").getValue().toString());
             }
 
             @Override
@@ -64,19 +76,30 @@ public class delete_multiple_courses extends AppCompatActivity {
         reff = FirebaseDatabase.getInstance().getReference("Student Courses").child(StudentID);
 
         final ArrayList<Integer> total_stu = new ArrayList<>();
-        final ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, myArrayList);
+        final ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, myArrayList)
+        {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                TextView text = (TextView) view.findViewById(android.R.id.text1);
+                text.setTextColor(Color.WHITE);
+                return view;
+            }
+        };
         reff.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 myArrayList.clear();
                 key.clear();
+                price.clear();
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     course = ds.getValue(Course.class);
                     key.add(ds.getKey());
                     course_name.add(course.getName());
                     course_date.add(course.getDate());
                     tutorId.add(course.getTId());
+                    price.add(course.getPrice());
                     myArrayList.add("\n" + course.getName() + "\n");
                  //   total_stu.add(course.getNo_of_students());
 
@@ -114,6 +137,10 @@ public class delete_multiple_courses extends AppCompatActivity {
         });
 
 
+        users = FirebaseDatabase.getInstance().getReference("users");
+
+
+
 
         View.OnClickListener listenerDel = new View.OnClickListener() {
             @Override
@@ -132,6 +159,42 @@ public class delete_multiple_courses extends AppCompatActivity {
                                 myArrayAdapter.remove(myArrayList.get(i));
                                 cid = key.get(i);
                                 tid = tutorId.get(i);
+
+
+
+//                                final int p = price.get(i);
+//                                users = FirebaseDatabase.getInstance().getReference("users");
+//
+//                                users.child(tid).addListenerForSingleValueEvent(new ValueEventListener() {
+//                                    @Override
+//                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                                        tutor_wallet = Integer.parseInt(dataSnapshot.child("wallet").getValue().toString());
+//                                        String temp = dataSnapshot.child("wallet").getValue().toString();
+//                                        users.child(tid).child("wallet").setValue(tutor_wallet-p+10);
+//                                        Toast.makeText(getApplicationContext(),temp,Toast.LENGTH_LONG).show();
+//                                    }
+//
+//                                    @Override
+//                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                                    }
+//                                });
+                                users.child(tid).addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        tutor_wallet = Integer.parseInt(dataSnapshot.child("wallet").getValue().toString());
+                                        temp2 = dataSnapshot.child("wallet").getValue().toString();
+                                        final int w = tutor_wallet;
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
+                                Toast.makeText(getApplicationContext(),temp2,Toast.LENGTH_SHORT).show();
+                                users.child(tid).child("wallet").setValue(w+10);
+                                //Toast.makeText(getApplicationContext(),temp,Toast.LENGTH_LONG).show();
                                 notification.setCourse_name(course_name.get(i) + " which is on ");
                                 notification.setDate(course_date.get(i));
                                 final DatabaseReference tut = FirebaseDatabase.getInstance().getReference("Tutor Courses").child(cid);
@@ -142,9 +205,10 @@ public class delete_multiple_courses extends AppCompatActivity {
                                 int n = total_stu.get(i)-1;
                                 tut.child("no_of_students").setValue(n);
 
-
+                                stu_wallet+=price.get(i)-10;
                             }
                         }
+                        temp.child(StudentID).child("wallet").setValue(stu_wallet);
                         Toast.makeText(getApplicationContext(),"Deleted Succesfully",Toast.LENGTH_SHORT).show();
                         checkedItemPositions.clear();
                         myArrayAdapter.notifyDataSetChanged();
@@ -159,12 +223,19 @@ public class delete_multiple_courses extends AppCompatActivity {
         Button delmultiple = findViewById(R.id.delete_multiple);
         delmultiple.setOnClickListener(listenerDel);
 
-        Button back = findViewById(R.id.back);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+
+
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+
+                // app icon in action bar clicked; goto parent activity.
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

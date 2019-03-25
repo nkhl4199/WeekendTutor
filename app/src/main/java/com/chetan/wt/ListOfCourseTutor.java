@@ -124,6 +124,7 @@ public class ListOfCourseTutor extends AppCompatActivity
                         intent.putExtra("agenda", mCourse.getAgenda());
                         intent.putExtra("date", mCourse.getDate());
                         intent.putExtra("TId",mCourse.getTId());
+                        intent.putExtra("price",mCourse.getPrice());
                         //intent.putExtra("id", mCourse.getI());
                         startActivity(intent);
 

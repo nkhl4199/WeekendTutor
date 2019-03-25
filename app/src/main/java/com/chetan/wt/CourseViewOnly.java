@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 public class CourseViewOnly extends AppCompatActivity {
 
-    TextView coursename,tutorName,Venue,Time,Duration,courseAgenda,course_date;
-    String course_name,tutor_name,venue,time,duration,courseagenda,coursedate;
+    TextView coursename,tutorName,Venue,Time,Duration,courseAgenda,course_date,price;
+    String course_name,tutor_name,venue,time,duration,courseagenda,coursedate,pr;
     Button Edit;
     String id,TId;
 
@@ -48,6 +48,11 @@ public class CourseViewOnly extends AppCompatActivity {
         course_date = (TextView) findViewById(R.id.course_date);
         course_date.setText(getIntent().getStringExtra("date"));
 
+        price = findViewById(R.id.price);
+        final int value = getIntent().getIntExtra("price",0);
+        price.setText(String.valueOf(value));
+
+
         TId = getIntent().getStringExtra("TId");
 
         Edit = (Button)findViewById(R.id.editCourse);
@@ -67,6 +72,7 @@ public class CourseViewOnly extends AppCompatActivity {
                 intent.putExtra("agenda", getIntent().getStringExtra("agenda"));
                 intent.putExtra("date", getIntent().getStringExtra("date"));
                 intent.putExtra("TId",getIntent().getStringExtra("TId"));
+                intent.putExtra("price",String.valueOf(value));
                 //intent.putExtra("id", mCourse.getI());
                 startActivity(intent);
                 finish();

@@ -130,6 +130,7 @@ public class registerStudent extends AppCompatActivity {
                             if(task.isSuccessful()){
                                 students user;
                                 user = new students();
+                                user.setWallet(500);
                                 user.setName(Name);
                                 user.setMail(Mail);
                                 user.setQualification(Quali);

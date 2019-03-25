@@ -31,13 +31,14 @@ import java.util.ArrayList;
 
 public class SelectCourse extends AppCompatActivity {
 
-    DatabaseReference db, reg, temp, notify,ref;
+    DatabaseReference db, reg, temp, notify,ref, tut;
     String sid,cid,url;
     DatabaseReference reff;
     Course course1 = new Course();
     TutorNotification notification = new TutorNotification();
     Intent in;
     String TutorId;
+    int course_price, wallet, tutor_wallet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,7 @@ public class SelectCourse extends AppCompatActivity {
         final TextView venue = (TextView)findViewById(R.id.VENUE);
         final ImageView iv = (ImageView)findViewById(R.id.imageView2);
         final TextView start = (TextView)findViewById(R.id.START);
+        final TextView price = findViewById(R.id.PRICE);
         cid = getIntent().getStringExtra("CourseID");
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         sid = user.getUid();
@@ -69,6 +71,7 @@ public class SelectCourse extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.child("name").getValue()!=null)
                 notification.setStudent_name(dataSnapshot.child("name").getValue().toString()+" registered for ");
+                wallet = Integer.parseInt(dataSnapshot.child("wallet").getValue().toString());
                 }
 
             @Override
@@ -76,12 +79,29 @@ public class SelectCourse extends AppCompatActivity {
 
             }
         });
+
+
+
+//        tut.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                tutor_wallet = Integer.parseInt(dataSnapshot.child("wallet").getValue().toString());
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+
         db = FirebaseDatabase.getInstance().getReference("Tutor Courses").child(cid);
         db.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.child("tname").getValue()!=null){
                     tutor.setText(dataSnapshot.child("tname").getValue().toString());
+                    price.setText(dataSnapshot.child("price").getValue().toString());
+                    course_price = Integer.parseInt(dataSnapshot.child("price").getValue().toString());
                     course.setText(dataSnapshot.child("name").getValue().toString());
                     venue.setText(dataSnapshot.child("venue").getValue().toString());
                     duration.setText(dataSnapshot.child("duration").getValue().toString());
@@ -95,16 +115,18 @@ public class SelectCourse extends AppCompatActivity {
                     course1.setDuration(dataSnapshot.child("duration").getValue().toString());
                     course1.setAgenda(dataSnapshot.child("agenda").getValue().toString());
                     course1.setDate(dataSnapshot.child("date").getValue().toString());
+                    course1.setPrice(Integer.parseInt(dataSnapshot.child("price").getValue().toString()));
                     notification.setDate(dataSnapshot.child("date").getValue().toString());
                     course1.setStart(dataSnapshot.child("start").getValue().toString());
                     course1.setTId(dataSnapshot.child("tid").getValue().toString());
                     n[0] = Integer.parseInt(dataSnapshot.child("no_of_students").getValue().toString());
                     TutorId = dataSnapshot.child("tid").getValue().toString();
-                    ref = FirebaseDatabase.getInstance().getReference("users").child(dataSnapshot.child("tid").getValue().toString()).child("durl");
+                    ref = FirebaseDatabase.getInstance().getReference("users").child(dataSnapshot.child("tid").getValue().toString());
                     ref.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            url = dataSnapshot.getValue(String.class);
+                            url = dataSnapshot.child("durl").getValue(String.class);
+                            tutor_wallet = Integer.parseInt(dataSnapshot.child("wallet").getValue().toString());
                             Picasso.get().load(url).error(R.drawable.noimage).into(iv);
 
                         }
@@ -126,7 +148,7 @@ public class SelectCourse extends AppCompatActivity {
         });
 
         ImageView imageView = (ImageView)findViewById(R.id.imageView2);
-        imageView.setImageResource(R.drawable.loading);
+        //imageView.setImageResource(R.drawable.loading);
 
 
         Button button = (Button)findViewById(R.id.button5);
@@ -168,49 +190,60 @@ public class SelectCourse extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Already Registered for this course", Toast.LENGTH_LONG).show();
                         }
                         else {
-                            reg = FirebaseDatabase.getInstance().getReference("Student Courses").child(sid).child(cid);
-                            n[0]++;
-                            notify = FirebaseDatabase.getInstance().getReference("Tutor Notifications").child(course1.getTId());
-                            notify.push().setValue(notification);
-                            reg.setValue(course1);
-                            if(course1.getTId()!=null){
-                                System.out.println("HELo" + course1.getTId());
-                                reg.child("no_of_students").setValue(n[0]);
-                                db.child("no_of_students").setValue(n[0]);
-                            }
-                            DatabaseReference st_ref = FirebaseDatabase.getInstance().getReference("Student Courses");
-                            st_ref.addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    for (DataSnapshot ds:dataSnapshot.getChildren()){
-                                        for (DataSnapshot ds1:ds.getChildren()){
-                                            if (ds1.getKey().equals(cid)){
-                                                list.add(ds.getKey());
-                                           //     Toast.makeText(getApplication(),ds.getKey(),Toast.LENGTH_LONG).show();
 
-                                                break;
-                                            //    Toast.makeText(getApplication(),ds.getKey(),Toast.LENGTH_LONG).show();
+                            if(wallet<course_price)
+                            {
+                                Toast.makeText(getApplicationContext(),"Not Enough Balance",Toast.LENGTH_LONG).show();
+                            }
+                            else {
+                                temp.child(sid).child("wallet").setValue(wallet-course_price);
+                                tut = FirebaseDatabase.getInstance().getReference("users").child(TutorId);
+                                tut.child("wallet").setValue(tutor_wallet+course_price);
+                                reg = FirebaseDatabase.getInstance().getReference("Student Courses").child(sid).child(cid);
+                                n[0]++;
+                                notify = FirebaseDatabase.getInstance().getReference("Tutor Notifications").child(course1.getTId());
+                                notify.push().setValue(notification);
+                                reg.setValue(course1);
+                                if(course1.getTId()!=null){
+                                    System.out.println("HELo" + course1.getTId());
+                                    reg.child("no_of_students").setValue(n[0]);
+                                    db.child("no_of_students").setValue(n[0]);
+                                }
+                                DatabaseReference st_ref = FirebaseDatabase.getInstance().getReference("Student Courses");
+                                st_ref.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        for (DataSnapshot ds:dataSnapshot.getChildren()){
+                                            for (DataSnapshot ds1:ds.getChildren()){
+                                                if (ds1.getKey().equals(cid)){
+                                                    list.add(ds.getKey());
+                                                    //     Toast.makeText(getApplication(),ds.getKey(),Toast.LENGTH_LONG).show();
+
+                                                    break;
+                                                    //    Toast.makeText(getApplication(),ds.getKey(),Toast.LENGTH_LONG).show();
+                                                }
                                             }
                                         }
                                     }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
+
+                                Toast.makeText(getApplicationContext(), "Registered Succesfully", Toast.LENGTH_SHORT).show();
+                                in = new Intent(getApplicationContext(),StudentCourses.class);
+
+                                for (int j=0;j<list.size();j++){
+                                    ch.child(list.get(j)).child(cid).setValue(n[0]);
+                                    //   Toast.makeText(getApplicationContext(),String.valueOf(n[0]),Toast.LENGTH_LONG).show();
+                                    System.out.println(list.get(j) + "   kkk");
                                 }
 
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                }
-                            });
-
-                            Toast.makeText(getApplicationContext(), "Registered Succesfully", Toast.LENGTH_SHORT).show();
-                            in = new Intent(getApplicationContext(),StudentCourses.class);
-
-                            for (int j=0;j<list.size();j++){
-                                ch.child(list.get(j)).child(cid).setValue(n[0]);
-                             //   Toast.makeText(getApplicationContext(),String.valueOf(n[0]),Toast.LENGTH_LONG).show();
-                                System.out.println(list.get(j) + "   kkk");
+                                startActivity(in);
                             }
 
-                            startActivity(in);
 
                         }
 

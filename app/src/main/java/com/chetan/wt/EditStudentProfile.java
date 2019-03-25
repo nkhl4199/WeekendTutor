@@ -1,8 +1,10 @@
 package com.chetan.wt;
 
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,6 +28,9 @@ public class EditStudentProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_student_profile);
+        setTitle("Edit Profile");
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.startblue1)));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         StudentID =  getIntent().getStringExtra("StudentID");
         name = (EditText) findViewById(R.id.editSname);
         qualification = (EditText) findViewById(R.id.editSqualification);
@@ -64,11 +69,11 @@ public class EditStudentProfile extends AppCompatActivity {
                     city.setError( "Address is required!" );
                 else
                     flag++;
-                if( mail.getText().toString().trim().length() == 0 )
-                    mail.setError( "Areas of Interests are required!" );
-                else
-                    flag++;
-                if (flag==4) {
+//                if( mail.getText().toString().trim().length() == 0 )
+//                    mail.setError( "Areas of Interests are required!" );
+//                else
+//                    flag++;
+                if (flag==3) {
                     reff.child("name").setValue(name.getText().toString().trim());
                     reff.child("qualification").setValue(qualification.getText().toString().trim());
                     reff.child("city").setValue(city.getText().toString().trim());
@@ -88,5 +93,17 @@ public class EditStudentProfile extends AppCompatActivity {
 //                finish();
 //            }
 //        });
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+
+                // app icon in action bar clicked; goto parent activity.
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

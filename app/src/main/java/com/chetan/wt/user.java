@@ -7,6 +7,7 @@ public class user {
     String email;
     String degree;
     String city;
+    int wallet;
     String durl;
     public user() {
     }
@@ -27,7 +28,13 @@ public class user {
         this.durl="https://i.imgur.com/tGbaZCY.jpg";
     }
 
+    public int getWallet() {
+        return wallet;
+    }
 
+    public void setWallet(int wallet) {
+        this.wallet = wallet;
+    }
 
     public String getDurl() {
         return durl;

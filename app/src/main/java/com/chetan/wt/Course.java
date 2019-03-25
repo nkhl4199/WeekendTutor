@@ -4,8 +4,16 @@ public class Course {
 
 
     private String Name,Tname, Agenda, Date, Start, Venue, Duration,TId;
-    int no_of_students=0;
+    int no_of_students=0, price;
 
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
 
     public Course() {
 
@@ -21,6 +29,8 @@ public class Course {
         Duration = duration;
         this.TId = TId;
     }
+
+
 
     public String getTname() {
         return Tname;

@@ -180,6 +180,26 @@
                 android:inputType="date"
                 android:textSize="18sp" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/pr"
+                android:layout_margin="5dp"
+                android:gravity="bottom"
+                android:text="Price"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:inputType="number"
+                android:layout_margin="5dp"
+                android:background="@drawable/myborder"
+                android:padding="8dp"
+                android:textSize="18sp" />
+
         </LinearLayout>
     </ScrollView>
 

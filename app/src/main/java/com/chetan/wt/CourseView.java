@@ -27,8 +27,8 @@ import java.util.Date;
  * */
 
 public class CourseView extends AppCompatActivity {
-    EditText coursename,tutorName,Venue,Time,Duration,courseAgenda,course_date;
-    String course_name,tutor_name,venue,time,duration,courseagenda,coursedate;
+    EditText coursename,tutorName,Venue,Time,Duration,courseAgenda,course_date,price;
+    String course_name,tutor_name,venue,time,duration,courseagenda,coursedate,pr;
     Button Submit,delete;
     String id,TId;
     @Override
@@ -61,6 +61,9 @@ public class CourseView extends AppCompatActivity {
         course_date = (EditText)findViewById(R.id.course_date);
         course_date.setText(getIntent().getStringExtra("date"));
 
+        price = findViewById(R.id.price);
+        price.setText(getIntent().getStringExtra("price"));
+
         TId = getIntent().getStringExtra("TId");
 
         // final long id = getIntent().getLongExtra("id",0);
@@ -79,6 +82,7 @@ public class CourseView extends AppCompatActivity {
                 duration = Duration.getText().toString().trim();
                 courseagenda = courseAgenda.getText().toString();
                 coursedate = course_date.getText().toString();
+                pr = price.getText().toString();
                 try {
                     updateCourse(id,course_name,courseagenda,coursedate,time,venue,duration,tutor_name);
                 } catch (ParseException e) {
@@ -115,6 +119,9 @@ public class CourseView extends AppCompatActivity {
             flag=0;
         }
 
+        if (Integer.parseInt(pr)<0){
+            price.setError("Price cannot be negative");
+        }
 
         String[] time_format = time.split(":");
 
@@ -192,6 +199,7 @@ public class CourseView extends AppCompatActivity {
         if(flag==1) {
 
             Course course = new Course(course_name,courseagenda,coursedate,time,venue,duration,tutor_name,TId);
+            course.setPrice(Integer.parseInt(pr));
             databaseReference.setValue(course);
             finish();
         }

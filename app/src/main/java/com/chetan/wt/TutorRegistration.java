@@ -176,6 +176,7 @@ public class TutorRegistration extends AppCompatActivity {
                                                 public void onSuccess(Uri uri) {
                                                     downloadUrl = uri.toString();
                                                     us=new user(id,Name,email,qf,city,downloadUrl);
+                                                    us.setWallet(0);
                                                     dbr.child(id).setValue(us);
                                                 }
                                             });
@@ -183,10 +184,11 @@ public class TutorRegistration extends AppCompatActivity {
                                     });}
 
                                 if(flag==0){
-                                    us=new user(id,Name,email,qf,city);}
+                                    us=new user(id,Name,email,qf,city);
+                                    us.setWallet(0);}
                                 else{
                                     us=new user(id,Name,email,qf,city,downloadUrl);
-
+                                    us.setWallet(0);
                                 }
                                 dbr.child(id).setValue(us);
                                 startActivity(intobj);

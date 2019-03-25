@@ -24,7 +24,7 @@ import java.util.Date;
 
 public class CourseDetailsTutor extends AppCompatActivity {
 
-    EditText coursename,tutorName,Venue,Time,Duration,courseAgenda,course_date;
+    EditText coursename,tutorName,Venue,Time,Duration,courseAgenda,course_date,price;
     Button Submit;
     long maxId=0;
     Date dateObject;
@@ -78,6 +78,7 @@ public class CourseDetailsTutor extends AppCompatActivity {
         courseAgenda = (EditText) findViewById(R.id.courseAgenda);
         course_date = (EditText) findViewById(R.id.course_date);
         Submit = (Button) findViewById(R.id.Submit);
+        price = findViewById(R.id.price);
 
 
         //String dob_var = (course_date.getText().toString());
@@ -120,9 +121,15 @@ public class CourseDetailsTutor extends AppCompatActivity {
         String duration = Duration.getText().toString().trim();
         String agenda = courseAgenda.getText().toString().trim();
         coursedate = course_date.getText().toString();
+        int pr = Integer.parseInt(price.getText().toString().trim());
 
         if(course_name.equalsIgnoreCase("")){
             coursename.setError("Course name is required field");
+            flag=0;
+        }
+
+        if (pr<0){
+            price.setError("Price cannot be negative");
             flag=0;
         }
 
@@ -211,6 +218,7 @@ public class CourseDetailsTutor extends AppCompatActivity {
 
         if(flag==1) {
             Course course = new Course(course_name,agenda,coursedate,time,venue,duration,tutor_name,TId);
+            course.setPrice(pr);
             //databaseCourse.child(String.valueOf(maxId)).setValue(course);
             // Toast.makeText(this,TId,Toast.LENGTH_LONG).show();
             databaseCourse.push().setValue(course);

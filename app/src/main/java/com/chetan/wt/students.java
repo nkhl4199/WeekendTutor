@@ -6,6 +6,7 @@ public class students {
     String qualification;
     String name;
     String city;
+    int wallet;
 
     public students() {
     }
@@ -40,5 +41,10 @@ public class students {
         this.city = city;
     }
 
-
+    public int getWallet() {
+        return wallet;
+    }
+    public void setWallet(int wallet) {
+        this.wallet = wallet;
+    }
 }

@@ -45,6 +45,7 @@ public class Profile extends AppCompatActivity {
     Button changeAuth;
     StorageReference storageRef = FirebaseStorage.getInstance().getReference();
 
+
     de.hdodenhof.circleimageview.CircleImageView pro;
     /* @GlideModule
      public class MyAppGlideModule extends AppGlideModule {
