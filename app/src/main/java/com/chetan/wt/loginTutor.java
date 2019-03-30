@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,7 +27,7 @@ public class loginTutor extends Activity {
 
     private String Password;
     private String Mail;
-    private Matcher matcher;
+    private Matcher mail_matcher;
     FirebaseAuth mAuth;
     Button bu;
     private ProgressDialog pb;
@@ -45,6 +46,7 @@ public class loginTutor extends Activity {
         final Button signup =(Button)findViewById(R.id.signIn);
         bu=(Button)findViewById(R.id.button4);
         pb=new ProgressDialog(this);
+        pb.setMessage("Logging In...");
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -78,42 +80,57 @@ public class loginTutor extends Activity {
 
                 String regex = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$";
                 Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
-                matcher = pattern.matcher(Mail);
+                mail_matcher = pattern.matcher(Mail);
 
-                if (flag == 0) {
-
+                if (mail_matcher.matches() && pass.length() >= 8 && flag == 0) {
+                    pb.show();
                     //if(mAuth.getCurrentUser().)
                     mAuth.signInWithEmailAndPassword(Mail, Password).addOnCompleteListener(loginTutor.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()){
+                            if (task.isSuccessful()) {
+                                
                                 pb.dismiss();
+                                Welcome.loginState = 2;
 
-
-                                Intent intent = new Intent(loginTutor.this, ListOfCourseTutor.class);
+                                try {
+                                    TimeUnit.SECONDS.sleep(2);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
 
                                 Toast.makeText(getApplicationContext(), "Login Successful!", Toast.LENGTH_SHORT).show();
+
+                                Intent intent = new Intent(loginTutor.this, ListOfCourseTutor.class);
                                 startActivity(intent);
                             }
                             else
                             {
-                                if (!matcher.matches()) {
-                                    mail.setError("invalid e-mail");
-                                    Toast.makeText(loginTutor.this, "Invalid E-Mail ID!!", Toast.LENGTH_SHORT).show();
-                                }
-                                else if (Password.length() <= 8) {
-                                    pass.setError("password not long enough");
-                                    Toast.makeText(loginTutor.this, "Invalid Password!!", Toast.LENGTH_SHORT).show();
-                                }
-                                else{
-                                    Toast.makeText(loginTutor.this, "Invalid Email/Password!!", Toast.LENGTH_SHORT).show();
-                                }
                                 pb.dismiss();
+
+                                try {
+                                    TimeUnit.SECONDS.sleep(2);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+
+                                Toast.makeText(getApplicationContext(), "Error in Login!", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(getApplicationContext(), "Please check your Internet Connectivity!", Toast.LENGTH_SHORT).show();
 
                             }
                         }
                     });
-
+                }
+                else {
+                    if (!mail_matcher.matches()) {
+                        mail.setError("invalid e-mail");
+                        Toast.makeText(loginTutor.this, "Invalid E-Mail ID!!", Toast.LENGTH_SHORT).show();
+                    } else if (Password.length() <= 8) {
+                        pass.setError("password not long enough");
+                        Toast.makeText(loginTutor.this, "Invalid Password!!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(loginTutor.this, "Invalid Email/Password!!", Toast.LENGTH_SHORT).show();
+                    }
                 }
 
             }
