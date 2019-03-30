@@ -17,6 +17,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 public class MyProfileStudent extends AppCompatActivity {
     TextView name, email, address, contact;
@@ -25,6 +28,8 @@ public class MyProfileStudent extends AppCompatActivity {
     private FirebaseAuth fa;
     String id;
     Button mbutton;
+    de.hdodenhof.circleimageview.CircleImageView pro;
+    StorageReference storageRef = FirebaseStorage.getInstance().getReference();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,8 +38,7 @@ public class MyProfileStudent extends AppCompatActivity {
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.startblue1)));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-
+        pro=(de.hdodenhof.circleimageview.CircleImageView)findViewById(R.id.profilephoto);
         mbutton = findViewById(R.id.edit);
         name = (TextView) findViewById(R.id.editSname);
         contact = (TextView) findViewById(R.id.qualification);
@@ -43,7 +47,7 @@ public class MyProfileStudent extends AppCompatActivity {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-
+        final StorageReference mountainsRef = storageRef.child("Students").child(id+".jpg");
         reff = FirebaseDatabase.getInstance().getReference("Students");
         StudentID = user.getUid();
 
@@ -54,6 +58,10 @@ public class MyProfileStudent extends AppCompatActivity {
                 email.setText(dataSnapshot.child("mail").getValue().toString());
                 contact.setText(dataSnapshot.child("qualification").getValue().toString());
                 address.setText(dataSnapshot.child("city").getValue().toString());
+                String imageUri = dataSnapshot.child("durl").getValue().toString();
+                if(imageUri!="")
+                    Picasso.get().load(imageUri).fit().centerCrop().into(pro);
+
             }
 
             @Override
