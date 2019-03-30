@@ -69,7 +69,8 @@
                 android:gravity="bottom"
                 android:text="Tutor Name"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone"/>
 
             <EditText
                 android:id="@+id/tutorName"
@@ -79,7 +80,8 @@
                 android:background="@drawable/myborder"
                 android:padding="8dp"
                 android:inputType="textPersonName"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/venue"

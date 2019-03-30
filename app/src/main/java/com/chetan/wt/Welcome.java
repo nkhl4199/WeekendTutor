@@ -26,7 +26,7 @@ public class Welcome extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        fa = FirebaseAuth.getInstance();
+        /*fa = FirebaseAuth.getInstance();
         FirebaseUser cuser = fa.getCurrentUser();
         id = cuser.getUid();
 
@@ -39,7 +39,7 @@ public class Welcome extends AppCompatActivity {
         {
             Intent tut = new Intent(Welcome.this, ListOfCourseTutor.class);
             startActivity(tut);
-        }
+        }*/
     }
 
     public void login_tutor(View view){

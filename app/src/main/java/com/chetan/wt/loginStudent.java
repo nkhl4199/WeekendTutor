@@ -91,7 +91,13 @@ public class loginStudent extends Activity {
                             {
                                 // mAuth.getCurrentUser();
                                 pb.dismiss();
-                                Welcome.loginState = 1;
+                                //Welcome.loginState = 1;
+                                try {
+                                    TimeUnit.SECONDS.sleep(1);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                
                                 Toast.makeText(getApplicationContext(), "Login Successful!", Toast.LENGTH_LONG).show();
 
                                 Intent intent = new Intent(loginStudent.this, CourseList.class);
