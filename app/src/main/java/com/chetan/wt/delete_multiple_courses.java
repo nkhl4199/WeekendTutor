@@ -62,7 +62,7 @@ public class delete_multiple_courses extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.child("name").getValue()!=null)
-                notification.setStudent_name(dataSnapshot.child("name").getValue().toString()+" unregistered for ");
+                    notification.setStudent_name(dataSnapshot.child("name").getValue().toString()+" unregistered for ");
                 stu_wallet = Integer.parseInt(dataSnapshot.child("wallet").getValue().toString());
             }
 
@@ -105,7 +105,7 @@ public class delete_multiple_courses extends AppCompatActivity {
                     tutorId.add(course.getTId());
                     price.add(course.getPrice());
                     myArrayList.add("\n" + course.getName() + "\n");
-                 //   total_stu.add(course.getNo_of_students());
+                    //   total_stu.add(course.getNo_of_students());
 
                 }
                 listView.setAdapter(myArrayAdapter);
@@ -228,17 +228,20 @@ public class delete_multiple_courses extends AppCompatActivity {
                                 tut.child("no_of_students").setValue(n);
 
                                 stu_wallet+=price.get(i)-10;
-                                tutor_wallet.set(i,tutor_wallet.get(i)-price.get(i)+10);
 
-                                for(int j=0;j<tutorId.size();j++){
+                                for(int j=itemCount-1;j>i;j--){
                                     if(tutorId.get(i).equals(tutorId.get(j))){
-                                        tutor_wallet.set(j,tutor_wallet.get(i));
+                                        tutor_wallet.set(i,tutor_wallet.get(j));
                                     }
                                 }
+                                System.out.println("Trail: Before" + tutor_wallet.get(i));
+                                tutor_wallet.set(i,tutor_wallet.get(i)-price.get(i)+10);
+                                System.out.println("Trail: After" + tutor_wallet.get(i));
+
                             }
                         }
 
-                        for (int j=0;j<tutorId.size();j++){
+                        for (int j=tutorId.size()-1;j>=0;j--){
                             users.child(tutorId.get(j)).child("wallet").setValue(tutor_wallet.get(j));
                         }
 
