@@ -46,12 +46,13 @@ public class ListOfCourseTutor extends AppCompatActivity
     String TId;
     String Tid;
     String TutorID;
-    private DatabaseReference dbr;
+   // private DatabaseReference dbr;
     int flag = 0;
     ArrayList<Course> course_list;
     CardView cd;
     DatabaseReference refff;
-
+    private FirebaseAuth fa;
+    private DatabaseReference dbr;
     ProgressBar pg;
 
     @Override
@@ -83,12 +84,39 @@ public class ListOfCourseTutor extends AppCompatActivity
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Tutor Courses");
         pg = (ProgressBar)findViewById(R.id.progressBar);
         cd = findViewById(R.id.card_view);
-        dbr= FirebaseDatabase.getInstance().getReference("users");
+        //dbr= FirebaseDatabase.getInstance().getReference("users");
         final ArrayList<String> list = new ArrayList<>();
         final ArrayAdapter<String> arrayAdapter;
         arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,list);
 
+/////////////////
+        final TextView navEmail = (TextView) header.findViewById(R.id.emname);
+        final ImageView navImage = (ImageView) header.findViewById(R.id.nav_image);
+        final TextView navName = (TextView) header.findViewById(R.id.usname);
+        navName.setText("Name");
+        fa=FirebaseAuth.getInstance();
+        FirebaseUser cuser = fa.getCurrentUser();
+        dbr= FirebaseDatabase.getInstance().getReference("users");
+        final String id=cuser.getUid();
+        dbr.child(id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                navName.setText(dataSnapshot.getValue(user.class).getName());
+                navEmail.setText(dataSnapshot.getValue(user.class).getEmail());
+                String imageUri = dataSnapshot.getValue(user.class).getDurl();
+                //Toast.makeText(getApplicationContext(),dataSnapshot.getValue(user.class).getName(),Toast.LENGTH_LONG).show();
+                //ImageView ivBasicImage = (ImageView) findViewById(R.id.ivBasicImage);
+                if(imageUri!="")
+                    Picasso.get().load(imageUri).fit().centerCrop().into(navImage);
 
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+////////////////////
         key = new ArrayList<>();
         course_list = new ArrayList<>();
 
