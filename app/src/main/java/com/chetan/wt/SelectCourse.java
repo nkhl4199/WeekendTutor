@@ -78,7 +78,7 @@ public class SelectCourse extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.child("name").getValue()!=null)
                     notification.setStudent_name(dataSnapshot.child("name").getValue().toString()+" registered for ");
-                trans_tutor.setName(dataSnapshot.child("name").getValue().toString());
+               trans_tutor.setName(dataSnapshot.child("name").getValue().toString());
                 wallet = Integer.parseInt(dataSnapshot.child("wallet").getValue().toString());
             }
 

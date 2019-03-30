@@ -20,12 +20,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class CourseDetails extends AppCompatActivity {
     TextView name, agenda, date, time, duration, venue, tname;
     Button delete;
     String cid, tid;
     Intent in;
     String sid;
+    Transaction trans_student = new Transaction();
+    Transaction trans_tutor = new Transaction();
     int student_wallet,tutor_wallet,price;
 
     DatabaseReference reff, notify, temp, tutor;
@@ -65,6 +71,7 @@ public class CourseDetails extends AppCompatActivity {
                 if(dataSnapshot.child("name").getValue()!=null)
                 notification.setStudent_name(dataSnapshot.child("name").getValue().toString()+" unregistered for ");
                 student_wallet = Integer.parseInt(dataSnapshot.child("wallet").getValue().toString());
+                trans_student.setName(dataSnapshot.child("tname").getValue().toString());
             }
 
             @Override
@@ -72,7 +79,6 @@ public class CourseDetails extends AppCompatActivity {
 
             }
         });
-
 
 
         reff = FirebaseDatabase.getInstance().getReference("Student Courses").child(sid).child(cid);
@@ -150,6 +156,10 @@ public class CourseDetails extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         notify = FirebaseDatabase.getInstance().getReference("Tutor Notifications").child(tid);
                         notify.push().setValue(notification);
+
+                        String dt = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+                        trans_student.setDate(dt);
+                        trans_tutor.setDate(dt);
 
                         DatabaseReference del = FirebaseDatabase.getInstance().getReference("Student Courses").child(sid).child(cid);
                      //  count[0]--;
