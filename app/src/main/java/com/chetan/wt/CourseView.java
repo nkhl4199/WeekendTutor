@@ -43,8 +43,8 @@ public class CourseView extends AppCompatActivity {
 
 
         id = getIntent().getStringExtra("CourseID");
-        tutorName = (EditText)findViewById(R.id.tutorName);
-        tutorName.setText(getIntent().getStringExtra("Tutor_name"));
+//        tutorName = (EditText)findViewById(R.id.tutorName);
+//        tutorName.setText(getIntent().getStringExtra("Tutor_name"));
 
         Venue = (EditText)findViewById(R.id.Venue);
         Venue.setText(getIntent().getStringExtra("Venue"));
@@ -76,7 +76,7 @@ public class CourseView extends AppCompatActivity {
             public void onClick(View view) {
 
                 course_name = coursename.getText().toString();
-                tutor_name = tutorName.getText().toString();
+                tutor_name = getIntent().getStringExtra("Tutor_name");
                 venue = Venue.getText().toString();
                 time = Time.getText().toString();
                 duration = Duration.getText().toString().trim();
@@ -108,10 +108,10 @@ public class CourseView extends AppCompatActivity {
             flag=0;
         }
 
-        if(tutor_name.equalsIgnoreCase("")){
-            tutorName.setError("Enter tutor name");
-            flag=0;
-        }
+//        if(tutor_name.equalsIgnoreCase("")){
+//            tutorName.setError("Enter tutor name");
+//            flag=0;
+//        }
 
 
         if (venue.equalsIgnoreCase("")){

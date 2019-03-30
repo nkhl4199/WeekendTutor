@@ -26,10 +26,11 @@ public class CourseDetailsTutor extends AppCompatActivity {
 
     EditText coursename,tutorName,Venue,Time,Duration,courseAgenda,course_date,price;
     Button Submit;
+    String name_of_tutor;
     long maxId=0;
     Date dateObject;
     String coursedate;
-    DatabaseReference databaseCourse;
+    DatabaseReference databaseCourse,tutor;
     int flag=1;
     private ProgressDialog pb;
     private FirebaseAuth fa;
@@ -45,8 +46,8 @@ public class CourseDetailsTutor extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         fa=FirebaseAuth.getInstance();
-         TId = fa.getCurrentUser().getUid();
-       // TId = "abc";
+        TId = fa.getCurrentUser().getUid();
+        // TId = "abc";
         databaseCourse = FirebaseDatabase.getInstance().getReference("Tutor Courses");
         databaseCourse.addValueEventListener(new ValueEventListener() {
             @Override
@@ -69,9 +70,27 @@ public class CourseDetailsTutor extends AppCompatActivity {
             }
         });
 
+        tutor = FirebaseDatabase.getInstance().getReference("users").child(TId);
+
+        tutor.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue(user.class).getName()!=null){
+                    // tutorName.setText(dataSnapshot.child("name").getValue().toString());
+                    name_of_tutor = dataSnapshot.getValue(user.class).getName();
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
 
         coursename = (EditText) findViewById(R.id.courseName);
-        tutorName = (EditText) findViewById(R.id.tutorName);
+//        tutorName = (EditText) findViewById(R.id.tutorName);
         Venue = (EditText) findViewById(R.id.Venue);
         Time = (EditText) findViewById(R.id.Time);
         Duration = (EditText) findViewById(R.id.Duration);
@@ -115,13 +134,17 @@ public class CourseDetailsTutor extends AppCompatActivity {
 
     public void addCourse() throws ParseException {
         String course_name = coursename.getText().toString().trim();
-        String tutor_name = tutorName.getText().toString().trim();
+        String tutor_name = name_of_tutor;
         String venue = Venue.getText().toString().trim();
         String time = Time.getText().toString().trim();
         String duration = Duration.getText().toString().trim();
         String agenda = courseAgenda.getText().toString().trim();
         coursedate = course_date.getText().toString();
-        int pr = Integer.parseInt(price.getText().toString().trim());
+        int pr;
+        if (price.getText().toString().trim().equals(""))
+            pr = 0;
+        else
+            pr = Integer.parseInt(price.getText().toString().trim());
 
         if(course_name.equalsIgnoreCase("")){
             coursename.setError("Course name is required field");
@@ -133,10 +156,10 @@ public class CourseDetailsTutor extends AppCompatActivity {
             flag=0;
         }
 
-        if(tutor_name.equalsIgnoreCase("")){
-            tutorName.setError("Enter tutor name");
-            flag=0;
-        }
+//        if(tutor_name.equalsIgnoreCase("")){
+//            tutorName.setError("Enter tutor name");
+//            flag=0;
+//        }
 
 
         if (venue.equalsIgnoreCase("")){
