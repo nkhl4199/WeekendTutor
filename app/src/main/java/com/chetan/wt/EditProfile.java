@@ -2,11 +2,13 @@ package com.chetan.wt;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -75,6 +77,8 @@ public class EditProfile extends AppCompatActivity {
         assert getSupportActionBar() != null;   //null check
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_edit_profile);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.startblue1)));
+        setTitle("Edit Profile");
         nameed=(EditText)findViewById(R.id.name);
         cityed=(EditText)findViewById(R.id.city);
         emailed=(TextView) findViewById(R.id.email);
@@ -216,6 +220,18 @@ public class EditProfile extends AppCompatActivity {
 
 
         });
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+
+                // app icon in action bar clicked; goto parent activity.
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
     @Override
     public boolean onSupportNavigateUp(){
