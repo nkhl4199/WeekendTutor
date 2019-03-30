@@ -91,7 +91,7 @@ public class loginTutor extends Activity {
                             if (task.isSuccessful()) {
                                 
                                 pb.dismiss();
-                                Welcome.loginState = 2;
+                                //Welcome.loginState = 2;
 
                                 try {
                                     TimeUnit.SECONDS.sleep(2);
