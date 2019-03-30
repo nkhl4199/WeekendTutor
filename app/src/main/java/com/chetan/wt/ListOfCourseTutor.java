@@ -2,6 +2,7 @@ package com.chetan.wt;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -57,8 +58,13 @@ public class ListOfCourseTutor extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_of_course_tutor);
+        //getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.startblue1)));
+        //setTitle("Courses");
+        setTitle("Courses");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+        toolbar.setBackgroundColor(getResources().getColor(R.color.startblue1));
 
         // Intent intent = getIntent();
 
@@ -191,6 +197,19 @@ public class ListOfCourseTutor extends AppCompatActivity
             }
         });
     }
+
+    /*@Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+
+                // app icon in action bar clicked; goto parent activity.
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }*/
 
     class CustomAdapter extends BaseAdapter{
 

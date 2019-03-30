@@ -6,9 +6,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="10"
+    android:background="@drawable/book"
     tools:context=".CourseDetailsTutor">
 
-    <LinearLayout
+    <!--LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -27,7 +28,7 @@
             android:textStyle="bold" />
 
 
-    </LinearLayout>
+    </LinearLayout-->
 
 
     <ScrollView
@@ -49,7 +50,8 @@
                 android:gravity="bottom"
                 android:text="Course Name"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="#fff"/>
 
             <EditText
                 android:id="@+id/courseName"
@@ -59,7 +61,8 @@
                 android:layout_margin="5dp"
                 android:padding="8dp"
                 android:inputType="textPersonName"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:textColor="#fff"/>
 
             <TextView
                 android:id="@+id/tutorname"
@@ -70,7 +73,8 @@
                 android:text="Tutor Name"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                android:textColor="#fff"/>
 
             <EditText
                 android:id="@+id/tutorName"
@@ -81,7 +85,8 @@
                 android:padding="8dp"
                 android:inputType="textPersonName"
                 android:textSize="18sp"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                android:textColor="#fff"/>
 
             <TextView
                 android:id="@+id/venue"
@@ -91,7 +96,8 @@
                 android:gravity="bottom"
                 android:text="Venue"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="#fff"/>
 
             <EditText
                 android:id="@+id/Venue"
@@ -100,7 +106,8 @@
                 android:layout_margin="5dp"
                 android:background="@drawable/myborder"
                 android:padding="8dp"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:textColor="#fff"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -110,7 +117,8 @@
                 android:text="Time(Enter in 24 hrs format)"
                 android:id="@+id/time"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="#fff"/>
 
             <EditText
                 android:id="@+id/Time"
@@ -120,7 +128,8 @@
                 android:background="@drawable/myborder"
                 android:padding="8dp"
                 android:inputType="time"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:textColor="#fff"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -130,7 +139,8 @@
                 android:id="@+id/duration"
                 android:text="Duration(Enter in 24 hrs format)"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="#fff"/>
 
             <EditText
                 android:id="@+id/Duration"
@@ -150,7 +160,8 @@
                 android:id="@+id/couseagenda"
                 android:text="Course Agenda"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="#fff"/>
 
             <EditText
                 android:id="@+id/courseAgenda"
@@ -160,7 +171,8 @@
                 android:background="@drawable/myborder"
                 android:padding="8dp"
                 android:inputType="textPersonName"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:textColor="#fff"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -170,7 +182,8 @@
                 android:id="@+id/date"
                 android:text="Date(Enter in format dd/mm/yyyy)"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="#fff"/>
 
             <EditText
                 android:id="@+id/course_date"
@@ -180,7 +193,8 @@
                 android:background="@drawable/myborder"
                 android:padding="8dp"
                 android:inputType="date"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:textColor="#fff"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -189,7 +203,8 @@
                 android:gravity="bottom"
                 android:text="Price"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="#fff"/>
 
             <EditText
                 android:id="@+id/price"
@@ -199,7 +214,8 @@
                 android:layout_margin="5dp"
                 android:background="@drawable/myborder"
                 android:padding="8dp"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:textColor="#fff"/>
 
         </LinearLayout>
     </ScrollView>
@@ -210,8 +226,9 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:text="Submit"
+        android:background="@drawable/buttonstyle"
         android:layout_gravity="center_horizontal|bottom"
-        android:background="@drawable/button_tutor"
+
         />
 
 
