@@ -78,7 +78,7 @@ public class SelectCourse extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.child("name").getValue()!=null)
                     notification.setStudent_name(dataSnapshot.child("name").getValue().toString()+" registered for ");
-                trans_student.setName(dataSnapshot.child("name").getValue().toString());
+                trans_tutor.setName(dataSnapshot.child("tname").getValue().toString());
                 wallet = Integer.parseInt(dataSnapshot.child("wallet").getValue().toString());
             }
 
@@ -122,7 +122,6 @@ public class SelectCourse extends AppCompatActivity {
                     date.setText(dataSnapshot.child("date").getValue().toString());
                     start.setText(dataSnapshot.child("start").getValue().toString());
                     course1.setTname(dataSnapshot.child("tname").getValue().toString());
-                    trans_tutor.setName(dataSnapshot.child("tname").getValue().toString());
                     trans_student.setName(dataSnapshot.child("tname").getValue().toString());
                     course1.setName(dataSnapshot.child("name").getValue().toString());
                     notification.setCourse_name(dataSnapshot.child("name").getValue().toString()+" which is on ");

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@drawable/book"
+    android:layout_height="match_parent"
+    tools:context=".TutorWallet">
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:srcCompat="@drawable/rupee" />
+
+    <TextView
+        android:id="@+id/wallet"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_toRightOf="@+id/image"
+        android:paddingLeft="5dp"
+        android:paddingBottom="5dp"
+        android:text="100"
+        android:textColor="#fff"
+        android:textSize="50sp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/wallet"
+        android:layout_marginLeft="20dp"
+        android:text="Wallet Balance"
+        android:textColor="#fff" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:id="@+id/money"
+        android:inputType="number"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/textView4"
+        android:layout_height="50dp"
+        android:visibility="gone"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:id="@+id/addMoney"
+        android:background="@drawable/buttonstyle"
+        android:layout_marginTop="20dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/money"
+        android:text="Add Money" />
+
+
+</RelativeLayout>
