@@ -104,42 +104,17 @@
         android:hint=""
         android:layout_below="@id/qfview"/>
 
-    <TextView
-        android:id="@+id/cityview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/qualification"
-        android:layout_marginLeft="3dp"
-        android:text="City (where you want to study)" />
-    <EditText
-        android:id="@+id/city"
-        android:layout_below="@id/cityview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="" />
     <Button
         android:id="@+id/registerbutton"
-        android:layout_marginTop="30dp"
-        android:layout_width="250dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:text="Register"
-        android:layout_below="@id/city"
+        android:layout_alignTop="@+id/pagename"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="400dp"
+        android:layout_marginEnd="25dp"
         android:background="@drawable/oval_button"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
-        android:layout_centerHorizontal="true"
-        />
-    <!--ImageView
-        android:id="@+id/quote"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/quote"
-        android:layout_below="@id/registerbutton"
-        android:adjustViewBounds="true"
-        android:cropToPadding="false"
-        android:scaleType="centerCrop"/-->
-
+        android:text="Register" />
 
 </RelativeLayout>
