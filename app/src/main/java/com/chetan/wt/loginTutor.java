@@ -117,8 +117,8 @@ public class loginTutor extends Activity {
                                         if(dataSnapshot.exists()){
 
                                             Toast.makeText(getApplicationContext(), "Login Successful!", Toast.LENGTH_LONG).show();
-                                            sp.edit().putString("userClass", "Tutor").apply();
-                                            sp.edit().putBoolean("loginStatus", true).apply();
+                                            //sp.edit().putString("userClass", "Tutor").apply();
+                                            //sp.edit().putBoolean("loginStatus", true).apply();
 
                                             Intent intent = new Intent(loginTutor.this, ListOfCourseTutor.class);
                                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -128,7 +128,7 @@ public class loginTutor extends Activity {
 
                                         }
                                         else{
-                                            Toast.makeText(getApplicationContext(), "Please re-check your credentials!", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getApplicationContext(), "Account does not exist\nPlease re-check your credentials!", Toast.LENGTH_SHORT).show();
                                         }
                                     }
 
