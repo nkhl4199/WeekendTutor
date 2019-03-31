@@ -27,7 +27,7 @@ public class Welcome extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        sp = getSharedPreferences("login",MODE_PRIVATE);
+        /*sp = getSharedPreferences("login",MODE_PRIVATE);
         login = sp.getBoolean("loginStatus",false);
         userClass = sp.getString("userClass", "");
 
@@ -49,7 +49,7 @@ public class Welcome extends AppCompatActivity {
                 finish();
             }
         }
-    
+        */
     
     }
 
