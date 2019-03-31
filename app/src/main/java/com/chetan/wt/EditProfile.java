@@ -172,7 +172,7 @@ public class EditProfile extends AppCompatActivity {
                                         downloadUrl = uri.toString();
                                         us=new user(id,names,emails,qfs,citys,downloadUrl);
                                         dbr.child(id).setValue(us);
-                                        Toast.makeText(getApplicationContext(),downloadUrl,Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext(),"Profile Photo Updated Successfully",Toast.LENGTH_LONG).show();
 
                                     }
                                 });
