@@ -25,17 +25,24 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class delete_multiple_courses extends AppCompatActivity {
 
-    DatabaseReference reff, notify, temp, users;
-    int stu_wallet, tutor_wallet,w;
+    DatabaseReference reff, notify, temp, users, trans_student, trans_tutor;
+    int stu_wallet,w;
     TutorNotification notification = new TutorNotification();
+    Transaction trans_stu = new Transaction();
+    Transaction trans_tut = new Transaction();
     Course course;
     ArrayList<String> key, tutorId, course_name, course_date;
     String StudentID,cid, tid, temp2;
     ArrayList<Integer> price;
+    ArrayList<Integer> tutor_wallet;
+    ArrayList<String> tutor_name;
     private FirebaseAuth SID;
 
     @Override
@@ -50,7 +57,9 @@ public class delete_multiple_courses extends AppCompatActivity {
         tutorId = new ArrayList<String>();
         course_name = new ArrayList<String>();
         course_date = new ArrayList<String>();
+        tutor_name = new ArrayList<String>();
         price = new ArrayList<>();
+        tutor_wallet = new ArrayList<>();
 
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         StudentID = user.getUid();
@@ -60,7 +69,8 @@ public class delete_multiple_courses extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.child("name").getValue()!=null)
-                notification.setStudent_name(dataSnapshot.child("name").getValue().toString()+" unregistered for ");
+                    notification.setStudent_name(dataSnapshot.child("name").getValue().toString()+" unregistered for ");
+                trans_tut.setName("Paid to "+dataSnapshot.child("name").getValue().toString());
                 stu_wallet = Integer.parseInt(dataSnapshot.child("wallet").getValue().toString());
             }
 
@@ -71,6 +81,10 @@ public class delete_multiple_courses extends AppCompatActivity {
         });
 
 
+        String dt = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+        trans_stu.setDate(dt);
+        trans_tut.setDate(dt);
+        trans_student = FirebaseDatabase.getInstance().getReference("Student Transactions").child(StudentID);
         final ListView listView = (ListView) findViewById(R.id.ListView);
         final ArrayList<String> myArrayList = new ArrayList<>();
         reff = FirebaseDatabase.getInstance().getReference("Student Courses").child(StudentID);
@@ -98,10 +112,12 @@ public class delete_multiple_courses extends AppCompatActivity {
                     key.add(ds.getKey());
                     course_name.add(course.getName());
                     course_date.add(course.getDate());
+                    //Toast.makeText(getApplicationContext(),course.getTname(),Toast.LENGTH_SHORT).show();
+                    tutor_name.add(course.getTname());
                     tutorId.add(course.getTId());
                     price.add(course.getPrice());
                     myArrayList.add("\n" + course.getName() + "\n");
-                 //   total_stu.add(course.getNo_of_students());
+                    //   total_stu.add(course.getNo_of_students());
 
                 }
                 listView.setAdapter(myArrayAdapter);
@@ -138,6 +154,24 @@ public class delete_multiple_courses extends AppCompatActivity {
 
 
         users = FirebaseDatabase.getInstance().getReference("users");
+
+        users.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds:dataSnapshot.getChildren()) {
+                    for (String id : tutorId) {
+                        if (id.equals(ds.getKey())) {
+                            tutor_wallet.add(Integer.parseInt(dataSnapshot.child(id).child("wallet").getValue().toString()));
+                        }
+                    }
+                }}
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
 
 
@@ -179,35 +213,59 @@ public class delete_multiple_courses extends AppCompatActivity {
 //
 //                                    }
 //                                });
-                                users.child(tid).addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                        tutor_wallet = Integer.parseInt(dataSnapshot.child("wallet").getValue().toString());
-                                        temp2 = dataSnapshot.child("wallet").getValue().toString();
-                                        final int w = tutor_wallet;
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                    }
-                                });
-                                Toast.makeText(getApplicationContext(),temp2,Toast.LENGTH_SHORT).show();
-                                users.child(tid).child("wallet").setValue(w+10);
+//                                users.child(tid).addValueEventListener(new ValueEventListener() {
+//                                    @Override
+//                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                                        tutor_wallet = Integer.parseInt(dataSnapshot.child("wallet").getValue().toString());
+//                                        temp2 = dataSnapshot.child("wallet").getValue().toString();
+//                                        final int w = tutor_wallet;
+//                                    }
+//
+//                                    @Override
+//                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                                    }
+//                                });
+                                //Toast.makeText(getApplicationContext(),temp2,Toast.LENGTH_SHORT).show();
+//                                users.child(tid).child("wallet").setValue(w+10);
                                 //Toast.makeText(getApplicationContext(),temp,Toast.LENGTH_LONG).show();
                                 notification.setCourse_name(course_name.get(i) + " which is on ");
+                                trans_tut.setCourse_name(" for "+course_name.get(i));
+                                trans_stu.setCourse_name(" for "+course_name.get(i));
+                                trans_tut.setAmount("-"+(price.get(i)-10)+"\nRefunded to ");
+                                trans_stu.setAmount("+"+(price.get(i)-10)+"\n");
+                                trans_stu.setName("Refunded by "+tutor_name.get(i));
                                 notification.setDate(course_date.get(i));
                                 final DatabaseReference tut = FirebaseDatabase.getInstance().getReference("Tutor Courses").child(cid);
                                 notify = FirebaseDatabase.getInstance().getReference("Tutor Notifications").child(tid);
+                                trans_tutor = FirebaseDatabase.getInstance().getReference("Tutor Transactions").child(tid);
+                                trans_student = FirebaseDatabase.getInstance().getReference("Student Transactions").child(StudentID);
                                 notify.push().setValue(notification);
+                                trans_tutor.push().setValue(trans_tut);
+                                trans_student.push().setValue(trans_stu);
                                 DatabaseReference del = FirebaseDatabase.getInstance().getReference("Student Courses").child(StudentID).child(cid);
                                 del.setValue(null);
                                 int n = total_stu.get(i)-1;
                                 tut.child("no_of_students").setValue(n);
 
                                 stu_wallet+=price.get(i)-10;
+
+                                for(int j=itemCount-1;j>i;j--){
+                                    if(tutorId.get(i).equals(tutorId.get(j))){
+                                        tutor_wallet.set(i,tutor_wallet.get(j));
+                                    }
+                                }
+                                System.out.println("Trail: Before" + tutor_wallet.get(i));
+                                tutor_wallet.set(i,tutor_wallet.get(i)-price.get(i)+10);
+                                System.out.println("Trail: After" + tutor_wallet.get(i));
+
                             }
                         }
+
+                        for (int j=tutorId.size()-1;j>=0;j--){
+                            users.child(tutorId.get(j)).child("wallet").setValue(tutor_wallet.get(j));
+                        }
+
                         temp.child(StudentID).child("wallet").setValue(stu_wallet);
                         Toast.makeText(getApplicationContext(),"Deleted Succesfully",Toast.LENGTH_SHORT).show();
                         checkedItemPositions.clear();

@@ -26,14 +26,20 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+import java.util.SimpleTimeZone;
 
 
 public class SelectCourse extends AppCompatActivity {
 
-    DatabaseReference db, reg, temp, notify,ref, tut;
+    DatabaseReference db, reg, temp, notify,ref, tut, trans_stu, trans_tut;
     String sid,cid,url;
     DatabaseReference reff;
+    Transaction trans_student = new Transaction();
+    Transaction trans_tutor = new Transaction();
     Course course1 = new Course();
     TutorNotification notification = new TutorNotification();
     Intent in;
@@ -63,16 +69,18 @@ public class SelectCourse extends AppCompatActivity {
         final ArrayList<String> list = new ArrayList<>();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-
+        String dt = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+        trans_student.setDate(dt);
+        trans_tutor.setDate(dt);
         temp = FirebaseDatabase.getInstance().getReference("Students");
         temp.child(sid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.child("name").getValue()!=null)
-                notification.setStudent_name(dataSnapshot.child("name").getValue().toString()+" registered for ");
+                    notification.setStudent_name(dataSnapshot.child("name").getValue().toString()+" registered for ");
+               trans_tutor.setName(dataSnapshot.child("name").getValue().toString());
                 wallet = Integer.parseInt(dataSnapshot.child("wallet").getValue().toString());
-                }
+            }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -101,14 +109,19 @@ public class SelectCourse extends AppCompatActivity {
                 if(dataSnapshot.child("tname").getValue()!=null){
                     tutor.setText(dataSnapshot.child("tname").getValue().toString());
                     price.setText(dataSnapshot.child("price").getValue().toString());
+                    trans_student.setAmount("-"+dataSnapshot.child("price").getValue().toString()+"\nPaid to ");
+                    trans_tutor.setAmount("+"+dataSnapshot.child("price").getValue().toString()+"\nRecieved from ");
                     course_price = Integer.parseInt(dataSnapshot.child("price").getValue().toString());
                     course.setText(dataSnapshot.child("name").getValue().toString());
+                    trans_student.setCourse_name(" for "+dataSnapshot.child("name").getValue().toString());
+                    trans_tutor.setCourse_name(" for "+dataSnapshot.child("name").getValue().toString());
                     venue.setText(dataSnapshot.child("venue").getValue().toString());
                     duration.setText(dataSnapshot.child("duration").getValue().toString());
                     agenda.setText(dataSnapshot.child("agenda").getValue().toString());
                     date.setText(dataSnapshot.child("date").getValue().toString());
                     start.setText(dataSnapshot.child("start").getValue().toString());
                     course1.setTname(dataSnapshot.child("tname").getValue().toString());
+                    trans_student.setName(dataSnapshot.child("tname").getValue().toString());
                     course1.setName(dataSnapshot.child("name").getValue().toString());
                     notification.setCourse_name(dataSnapshot.child("name").getValue().toString()+" which is on ");
                     course1.setVenue(dataSnapshot.child("venue").getValue().toString());
@@ -202,7 +215,11 @@ public class SelectCourse extends AppCompatActivity {
                                 reg = FirebaseDatabase.getInstance().getReference("Student Courses").child(sid).child(cid);
                                 n[0]++;
                                 notify = FirebaseDatabase.getInstance().getReference("Tutor Notifications").child(course1.getTId());
+                                trans_stu = FirebaseDatabase.getInstance().getReference("Student Transactions").child(sid);
+                                trans_tut = FirebaseDatabase.getInstance().getReference("Tutor Transactions").child(TutorId);
                                 notify.push().setValue(notification);
+                                trans_stu.push().setValue(trans_student);
+                                trans_tut.push().setValue(trans_tutor);
                                 reg.setValue(course1);
                                 if(course1.getTId()!=null){
                                     System.out.println("HELo" + course1.getTId());

@@ -54,7 +54,12 @@ public class ChangeAuthInfo extends AppCompatActivity {
         changeEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mail.getText().length() != 0 && cepass.getText().length() != 0) {
+
+                if (mail.getText().length() == 0)
+                    mail.setError("Enter new Email");
+                else if(cepass.getText().length() == 0)
+                    cepass.setError("Enter Current Password");
+                else {
                     pd.show();
 
                     AuthCredential credential = EmailAuthProvider
@@ -97,8 +102,12 @@ public class ChangeAuthInfo extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (npass.getText().length() != 0 && cpass.getText().length() != 0) {
 
+                if (cpass.getText().length() == 0)
+                    cpass.setError("Enter Current Password");
+                else if(npass.getText().length() == 0)
+                    npass.setError("Enter New Password");
+                else {
                     pd.show();
 
                     AuthCredential credential = EmailAuthProvider

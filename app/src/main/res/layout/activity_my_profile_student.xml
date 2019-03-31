@@ -93,7 +93,7 @@
             android:layout_height="40dp"
             android:layout_below="@id/graduationicon"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="100dp"
+            android:layout_marginBottom="80dp"
             android:layout_toLeftOf="@id/email"
             android:background="@drawable/location1"
             android:scaleType="centerCrop" />
@@ -105,7 +105,7 @@
             android:layout_below="@id/graduationicon"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="100dp"
+            android:layout_marginBottom="80dp"
             android:layout_marginLeft="10dp"
             android:textSize="20sp" />
 
