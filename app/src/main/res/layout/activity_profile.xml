@@ -13,7 +13,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:background="@drawable/gradientbackground"
+            android:background="@drawable/book"
             android:id="@+id/layout2"
             android:orientation="horizontal">
         </LinearLayout>
@@ -132,6 +132,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:clickable="true"
+            android:background="@drawable/book"
             app:backgroundTint="@color/colorPrimary"
             android:src="@drawable/edit"
             android:layout_marginBottom="5dp"
