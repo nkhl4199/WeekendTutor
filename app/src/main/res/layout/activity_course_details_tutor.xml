@@ -150,7 +150,8 @@
                 android:background="@drawable/myborder"
                 android:padding="8dp"
                 android:inputType="time"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:textColor="#fff"/>
 
             <TextView
                 android:layout_width="match_parent"
