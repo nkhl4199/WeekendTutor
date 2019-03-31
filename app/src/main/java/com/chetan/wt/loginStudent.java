@@ -125,7 +125,7 @@ public class loginStudent extends Activity {
                                             finish();
                                         }
                                         else {
-                                            Log.d("TAG", UserClass);
+                                            //Log.d("TAG", UserClass);
                                             Toast.makeText(getApplicationContext(), "Please re-check your credentials!", Toast.LENGTH_SHORT).show();
                                         }
                                     }
