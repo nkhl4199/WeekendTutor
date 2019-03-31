@@ -12,14 +12,14 @@
             android:title="Notifications" />
         <item
             android:id="@+id/nav_slideshow"
-            android:title="Slideshow" />
+            android:title="My Wallet" />
         <item
             android:id="@+id/Logout"
             android:title="Logout" />
 
-        <item
+        <!--item
             android:id="@+id/nav_share"
-            android:title="Share" />
+            android:title="Share" /-->
         <item
             android:id="@+id/nav_developers"
             android:title="Developers" />

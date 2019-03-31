@@ -96,8 +96,13 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_below="@id/graduationicon"
+<<<<<<< HEAD
             android:layout_marginTop="25dp"
             android:layout_marginBottom="100dp"
+=======
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="80dp"
+>>>>>>> c3a18c0968394961c1a61723e4b4ff7abfd17ad6
             android:layout_toLeftOf="@id/email"
             android:background="@drawable/location1"
             android:scaleType="centerCrop" />
@@ -110,8 +115,13 @@
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="20dp"
+<<<<<<< HEAD
             android:layout_marginBottom="100dp"
             android:textColor="@color/common_google_signin_btn_text_dark_default"
+=======
+            android:layout_marginBottom="80dp"
+            android:layout_marginLeft="10dp"
+>>>>>>> c3a18c0968394961c1a61723e4b4ff7abfd17ad6
             android:textSize="20sp" />
 
         <LinearLayout

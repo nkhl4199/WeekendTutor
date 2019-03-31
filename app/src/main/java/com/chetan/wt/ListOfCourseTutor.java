@@ -2,6 +2,7 @@ package com.chetan.wt;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -21,10 +22,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.SharedPreferences;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -33,6 +36,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -42,19 +46,28 @@ public class ListOfCourseTutor extends AppCompatActivity
     Course mCourse;
     String TId;
     String Tid;
+    String TutorID;
+   // private DatabaseReference dbr;
     int flag = 0;
     ArrayList<Course> course_list;
     CardView cd;
     DatabaseReference refff;
-
+    private FirebaseAuth fa;
+    private DatabaseReference dbr;
     ProgressBar pg;
+    SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_of_course_tutor);
+        //getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.startblue1)));
+        //setTitle("Courses");
+        setTitle("Courses");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+        toolbar.setBackgroundColor(getResources().getColor(R.color.startblue1));
 
         // Intent intent = getIntent();
 
@@ -63,22 +76,51 @@ public class ListOfCourseTutor extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+        
+        sp = getSharedPreferences("login",MODE_PRIVATE);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
+        View header = navigationView.getHeaderView(0);
         mCourse = new Course();
         Button newcourse = (Button)findViewById(R.id.newcourse);
         final ListView courselist = (ListView)findViewById(R.id.courselist);
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Tutor Courses");
         pg = (ProgressBar)findViewById(R.id.progressBar);
         cd = findViewById(R.id.card_view);
-
+        //dbr= FirebaseDatabase.getInstance().getReference("users");
         final ArrayList<String> list = new ArrayList<>();
         final ArrayAdapter<String> arrayAdapter;
         arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,list);
 
+/////////////////
+        final TextView navEmail = (TextView) header.findViewById(R.id.emname);
+        final ImageView navImage = (ImageView) header.findViewById(R.id.nav_image);
+        final TextView navName = (TextView) header.findViewById(R.id.usname);
+        navName.setText("Name");
+        fa=FirebaseAuth.getInstance();
+        FirebaseUser cuser = fa.getCurrentUser();
+        dbr= FirebaseDatabase.getInstance().getReference("users");
+        final String id=cuser.getUid();
+        dbr.child(id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                navName.setText(dataSnapshot.getValue(user.class).getName());
+                navEmail.setText(dataSnapshot.getValue(user.class).getEmail());
+                String imageUri = dataSnapshot.getValue(user.class).getDurl();
+                //Toast.makeText(getApplicationContext(),dataSnapshot.getValue(user.class).getName(),Toast.LENGTH_LONG).show();
+                //ImageView ivBasicImage = (ImageView) findViewById(R.id.ivBasicImage);
+                if(imageUri!="")
+                    Picasso.get().load(imageUri).fit().centerCrop().into(navImage);
 
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+////////////////////
         key = new ArrayList<>();
         course_list = new ArrayList<>();
 
@@ -98,7 +140,7 @@ public class ListOfCourseTutor extends AppCompatActivity
 
                         key.add(ds.getKey());
                         mCourse = ds.getValue(Course.class);
-                       // list.add("\nCourse Name:    " + mCourse.getName() + "\nVenue:             " + mCourse.getVenue() + "\nDate:              " + mCourse.getDate() + "\nTime:              " + mCourse.getStart() + "\nTotal no. of Students enrolled:" + mCourse.getNo_of_students());
+                        // list.add("\nCourse Name:    " + mCourse.getName() + "\nVenue:             " + mCourse.getVenue() + "\nDate:              " + mCourse.getDate() + "\nTime:              " + mCourse.getStart() + "\nTotal no. of Students enrolled:" + mCourse.getNo_of_students());
                         course_list.add(mCourse);
                     }
 
@@ -139,8 +181,45 @@ public class ListOfCourseTutor extends AppCompatActivity
             }
         });
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        TutorID = user.getUid();
+
+        //Toast.makeText(getApplicationContext(),TutorID,Toast.LENGTH_LONG).show();
+        //FirebaseAuth.getInstance().getCurrentUser().getUid()
+       /* final TextView navName = (TextView) header.findViewById(R.id.nav_name);
+        final TextView navEmail = (TextView) header.findViewById(R.id.nav_email);
+        final ImageView navImage = (ImageView) header.findViewById(R.id.nav_image);
+        navEmail.setText(user.getEmail());
+        newcourse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(ListOfCourseTutor.this, CourseDetailsTutor.class);
+                startActivity(i);
+            }
+        });
+        dbr.child(TutorID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.child("name").getValue()!=null) {
+                    navName.setText(dataSnapshot.getValue(user.class).getName());
+                    navEmail.setText(dataSnapshot.getValue(user.class).getEmail());
+                    String imageUri = dataSnapshot.getValue(user.class).getDurl();
+                    //Toast.makeText(getApplicationContext(),imageUri,Toast.LENGTH_LONG).show();
+                    //ImageView ivBasicImage = (ImageView) findViewById(R.id.ivBasicImage);
+                    if(imageUri!="")
+                        Picasso.get().load(imageUri).fit().centerCrop().into(navImage);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+        });
+*/
 
         newcourse.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,6 +229,19 @@ public class ListOfCourseTutor extends AppCompatActivity
             }
         });
     }
+
+    /*@Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+
+                // app icon in action bar clicked; goto parent activity.
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }*/
 
     class CustomAdapter extends BaseAdapter{
 
@@ -171,7 +263,6 @@ public class ListOfCourseTutor extends AppCompatActivity
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             convertView = getLayoutInflater().inflate(R.layout.customview,null);
-
             TextView cours_name = convertView.findViewById(R.id.cou_name);
             TextView course_date = convertView.findViewById(R.id.cou_date);
             TextView no_enrolled = convertView.findViewById(R.id.no_of_en);
@@ -228,17 +319,20 @@ public class ListOfCourseTutor extends AppCompatActivity
             startActivity(i);
 
         } else if (id == R.id.nav_slideshow) {
+            Intent it=new Intent(ListOfCourseTutor.this,TutorWallet.class);
+            startActivity(it);
 
         } else if (id == R.id.Logout) {
             FirebaseAuth fbu=FirebaseAuth.getInstance();
             fbu.signOut();
+            sp.edit().putBoolean("loginStatus", false).apply();
+            sp.edit().putString("userClass", "").apply();
+            
             Toast.makeText(getApplicationContext(),"logout successful",Toast.LENGTH_SHORT).show();
             Intent it=new Intent(getApplicationContext(),Welcome.class);
             startActivity(it);
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_developers) {
+        }  else if (id == R.id.nav_developers) {
             Intent it=new Intent(ListOfCourseTutor.this,developers.class);
             startActivity(it);
 

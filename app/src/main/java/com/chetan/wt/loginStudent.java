@@ -3,10 +3,12 @@ package com.chetan.wt;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -18,7 +20,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,10 +35,14 @@ public class loginStudent extends Activity {
 
     private String Password;
     private String Mail;
-    private Matcher matcher;
+    private Matcher mail_matcher;
     FirebaseAuth mAuth;
+    private FirebaseAuth fa;
+    private FirebaseUser User;
+    private DatabaseReference refStud;
     private ProgressDialog pb;
-
+    private String UserID = null;
+    SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +53,17 @@ public class loginStudent extends Activity {
 
         Intent intent = getIntent();
 
+
         final TextView mail = (TextView) findViewById(R.id.emailStu);
         final TextView pass = (TextView) findViewById(R.id.passStu);
         final Button signup =(Button)findViewById(R.id.signInStu);
         pb=new ProgressDialog(this);
+        pb.setMessage("Logging In...");
 
         mAuth = FirebaseAuth.getInstance();
+        fa = FirebaseAuth.getInstance();
+        refStud = FirebaseDatabase.getInstance().getReference("Students");
+        sp = getSharedPreferences("login",MODE_PRIVATE);
 
 
         signup.setOnClickListener(new View.OnClickListener() {
@@ -76,48 +94,86 @@ public class loginStudent extends Activity {
 
                 String regex = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$";
                 Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
-                matcher = pattern.matcher(Mail);
+                mail_matcher = pattern.matcher(Mail);
 
-                if(flag==0)
+                if (mail_matcher.matches() && pass.length() >= 8 && flag == 0)
                 {
-
-
+                    pb.show();
 //                    if(mAuth.getCurrentUser().)
                     mAuth.signInWithEmailAndPassword(Mail, Password).addOnCompleteListener(loginStudent.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful())
                             {
-                                //pb.setMessage("Logging In...");
-                                //pb.show();
-                               // mAuth.getCurrentUser();
-                                pb.dismiss();
-                                Intent intent = new Intent(loginStudent.this, CourseList.class);
+                                UserID = fa.getCurrentUser().getUid();
 
-                                Toast.makeText(getApplicationContext(), "Login Successful!", Toast.LENGTH_LONG).show();
-                                startActivity(intent);
+                                try {
+                                    TimeUnit.SECONDS.sleep(1);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+
+                                refStud.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        pb.dismiss();
+                                        if(dataSnapshot.exists()) {
+
+                                            refStud.removeEventListener(this);
+                                            Toast.makeText(getApplicationContext(), "Login Successful!", Toast.LENGTH_LONG).show();
+                                            sp.edit().putString("userClass", "Student").apply();
+                                            sp.edit().putBoolean("loginStatus", true).apply();
+
+                                            Intent intent = new Intent(loginStudent.this, CourseList.class);
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+                                        else {
+                                            refStud.removeEventListener(this);
+                                            //Log.d("TAG", UserClass);
+                                            Toast.makeText(getApplicationContext(), "Account does not exist\nPlease re-check your credentials!", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                                        pb.dismiss();
+                                        refStud.removeEventListener(this);
+                                        Toast.makeText(getApplicationContext(), "Error in Login!", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                             }
                             else
                             {
-                                if (!matcher.matches()) {
-                                    mail.setError("Invalid E-mail");
-                                    Toast.makeText(loginStudent.this, "Invalid E-Mail ID!!", Toast.LENGTH_SHORT).show();
-                                } else if (Password.length() <= 8) {
-                                    pass.setError("Password Not Long Enough");
-                                    Toast.makeText(loginStudent.this, "Invalid Password!!", Toast.LENGTH_SHORT).show();
-                                }
-                                else
-                                    Toast.makeText(loginStudent.this, "Invalid Email/Password!!", Toast.LENGTH_SHORT).show();
-
-
                                 pb.dismiss();
 
+                                try {
+                                    TimeUnit.SECONDS.sleep(2);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
 
+                                Toast.makeText(getApplicationContext(), "Error in Login!", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(getApplicationContext(), "Please check your Internet Connectivity!", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
                 }
+                else {
+                    pb.dismiss();
+                    if (!mail_matcher.matches()) {
+                        mail.setError("invalid e-mail");
+                        Toast.makeText(loginStudent.this, "Invalid E-Mail ID!!", Toast.LENGTH_SHORT).show();
+                    } else if (Password.length() <= 8) {
+                        pass.setError("invalid password");
+                        Toast.makeText(loginStudent.this, "Invalid Password!!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(loginStudent.this, "Invalid Email/Password!!", Toast.LENGTH_SHORT).show();
+                    }
 
+                }
 
             }
         });
@@ -134,4 +190,7 @@ public class loginStudent extends Activity {
     }
 
 }
+
+
+
 

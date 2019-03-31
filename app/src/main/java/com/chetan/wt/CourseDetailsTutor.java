@@ -1,9 +1,11 @@
 package com.chetan.wt;
 
 import android.app.ProgressDialog;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,10 +28,11 @@ public class CourseDetailsTutor extends AppCompatActivity {
 
     EditText coursename,tutorName,Venue,Time,Duration,courseAgenda,course_date,price;
     Button Submit;
+    String name_of_tutor;
     long maxId=0;
     Date dateObject;
     String coursedate;
-    DatabaseReference databaseCourse;
+    DatabaseReference databaseCourse,tutor;
     int flag=1;
     private ProgressDialog pb;
     private FirebaseAuth fa;
@@ -41,12 +44,14 @@ public class CourseDetailsTutor extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_details_tutor);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.startblue1)));
+        setTitle("Add a Course");
         assert  getSupportActionBar() != null;   //null check
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         fa=FirebaseAuth.getInstance();
-         TId = fa.getCurrentUser().getUid();
-       // TId = "abc";
+        TId = fa.getCurrentUser().getUid();
+        // TId = "abc";
         databaseCourse = FirebaseDatabase.getInstance().getReference("Tutor Courses");
         databaseCourse.addValueEventListener(new ValueEventListener() {
             @Override
@@ -69,9 +74,27 @@ public class CourseDetailsTutor extends AppCompatActivity {
             }
         });
 
+        tutor = FirebaseDatabase.getInstance().getReference("users").child(TId);
+
+        tutor.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue(user.class).getName()!=null){
+                    // tutorName.setText(dataSnapshot.child("name").getValue().toString());
+                    name_of_tutor = dataSnapshot.getValue(user.class).getName();
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
 
         coursename = (EditText) findViewById(R.id.courseName);
-        tutorName = (EditText) findViewById(R.id.tutorName);
+//        tutorName = (EditText) findViewById(R.id.tutorName);
         Venue = (EditText) findViewById(R.id.Venue);
         Time = (EditText) findViewById(R.id.Time);
         Duration = (EditText) findViewById(R.id.Duration);
@@ -115,13 +138,17 @@ public class CourseDetailsTutor extends AppCompatActivity {
 
     public void addCourse() throws ParseException {
         String course_name = coursename.getText().toString().trim();
-        String tutor_name = tutorName.getText().toString().trim();
+        String tutor_name = name_of_tutor;
         String venue = Venue.getText().toString().trim();
         String time = Time.getText().toString().trim();
         String duration = Duration.getText().toString().trim();
         String agenda = courseAgenda.getText().toString().trim();
         coursedate = course_date.getText().toString();
-        int pr = Integer.parseInt(price.getText().toString().trim());
+        int pr;
+        if (price.getText().toString().trim().equals(""))
+            pr = 0;
+        else
+            pr = Integer.parseInt(price.getText().toString().trim());
 
         if(course_name.equalsIgnoreCase("")){
             coursename.setError("Course name is required field");
@@ -133,10 +160,10 @@ public class CourseDetailsTutor extends AppCompatActivity {
             flag=0;
         }
 
-        if(tutor_name.equalsIgnoreCase("")){
-            tutorName.setError("Enter tutor name");
-            flag=0;
-        }
+//        if(tutor_name.equalsIgnoreCase("")){
+//            tutorName.setError("Enter tutor name");
+//            flag=0;
+//        }
 
 
         if (venue.equalsIgnoreCase("")){
@@ -209,7 +236,7 @@ public class CourseDetailsTutor extends AppCompatActivity {
             Date d1 = new Date();
             Date d2 = formatter.parse(coursedate);
             if(d1.compareTo(d2)>=0){
-                course_date.setError("Can't enter past date");
+                course_date.setError("Can't enter past/today's date");
                 flag=0;
             }
 
@@ -228,6 +255,18 @@ public class CourseDetailsTutor extends AppCompatActivity {
         }
 
 
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+
+                // app icon in action bar clicked; goto parent activity.
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
     @Override
     public boolean onSupportNavigateUp(){

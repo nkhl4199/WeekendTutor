@@ -2,11 +2,13 @@ package com.chetan.wt;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -75,6 +77,8 @@ public class EditProfile extends AppCompatActivity {
         assert getSupportActionBar() != null;   //null check
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_edit_profile);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.startblue1)));
+        setTitle("Edit Profile");
         nameed=(EditText)findViewById(R.id.name);
         cityed=(EditText)findViewById(R.id.city);
         emailed=(TextView) findViewById(R.id.email);
@@ -96,6 +100,7 @@ public class EditProfile extends AppCompatActivity {
                 emailed.setText(dataSnapshot.getValue(user.class).getEmail());
                 qfed.setText(dataSnapshot.getValue(user.class).getDegree());
                 cityed.setText(dataSnapshot.getValue(user.class).getCity());
+                downloadUrl=dataSnapshot.getValue(user.class).getDurl();
             }
 
             @Override
@@ -168,7 +173,7 @@ public class EditProfile extends AppCompatActivity {
                                         downloadUrl = uri.toString();
                                         us=new user(id,names,emails,qfs,citys,downloadUrl);
                                         dbr.child(id).setValue(us);
-                                        Toast.makeText(getApplicationContext(),downloadUrl,Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext(),"Profile Photo Updated Successfully",Toast.LENGTH_LONG).show();
 
                                     }
                                 });
@@ -177,7 +182,7 @@ public class EditProfile extends AppCompatActivity {
 
 
                     if(flag==0){
-                        us=new user(id,names,emails,qfs,citys);}
+                        us=new user(id,names,emails,qfs,citys,downloadUrl);}
                     else{
                         us=new user(id,names,emails,qfs,citys,downloadUrl);
                     }
@@ -216,6 +221,18 @@ public class EditProfile extends AppCompatActivity {
 
 
         });
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+
+                // app icon in action bar clicked; goto parent activity.
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
     @Override
     public boolean onSupportNavigateUp(){

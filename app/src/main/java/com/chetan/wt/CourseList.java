@@ -32,6 +32,7 @@ import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.SharedPreferences;
 
 import com.chootdev.recycleclick.RecycleClick;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -68,6 +69,7 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
     MyAdapter myAdapter;
     ArrayAdapter adapter;
     String StudentID="1";
+<<<<<<< HEAD
     ArrayList<String> key = new ArrayList<>();
     ArrayList<String> key1 = new ArrayList<>();
 
@@ -75,6 +77,9 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
     ArrayList<Course> courselist1 = new ArrayList<>();
     String cid;
 
+=======
+    SharedPreferences sp;
+>>>>>>> c3a18c0968394961c1a61723e4b4ff7abfd17ad6
 
 
     @Override
@@ -87,6 +92,8 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
         toolbar.setBackgroundColor(getResources().getColor(R.color.startblue1));
 
+        sp = getSharedPreferences("login",MODE_PRIVATE);
+        
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -350,7 +357,13 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
         } else if (id == R.id.logout) {
             FirebaseAuth fbu=FirebaseAuth.getInstance();
             fbu.signOut();
+<<<<<<< HEAD
             //Welcome.loginState = 0;
+=======
+            sp.edit().putBoolean("loginStatus", false).apply();
+            sp.edit().putString("userClass", "").apply();
+            
+>>>>>>> c3a18c0968394961c1a61723e4b4ff7abfd17ad6
             Toast.makeText(getApplicationContext(),"logout successful",Toast.LENGTH_SHORT).show();
             Intent it=new Intent(getApplicationContext(),Welcome.class);
             startActivity(it);

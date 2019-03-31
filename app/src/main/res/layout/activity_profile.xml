@@ -13,7 +13,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:background="@drawable/gradientbackground"
+            android:background="@drawable/book"
             android:id="@+id/layout2"
             android:orientation="horizontal">
         </LinearLayout>
@@ -112,9 +112,9 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
-            android:layout_below="@id/locationdisplay"
             android:text="Change Authentication Info"
-            android:background="@drawable/buttonstyle"/>
+            android:background="@drawable/buttonstyle"
+            android:layout_alignParentBottom="true"/>
 
         <!--Button
             android:id="@+id/emailbutton"
@@ -132,7 +132,8 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:clickable="true"
-            app:backgroundTint="@color/colorPrimary"
+            android:background="@drawable/book"
+            app:backgroundTint="#9900ff"
             android:src="@drawable/edit"
             android:layout_marginBottom="5dp"
             android:layout_marginRight="5dp"/>

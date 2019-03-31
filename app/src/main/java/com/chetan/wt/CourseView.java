@@ -1,9 +1,11 @@
 package com.chetan.wt;
 
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,6 +37,8 @@ public class CourseView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_view);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.startblue1)));
+        setTitle("Edit Details");
         assert getSupportActionBar() != null;   //null check
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -43,8 +47,8 @@ public class CourseView extends AppCompatActivity {
 
 
         id = getIntent().getStringExtra("CourseID");
-        tutorName = (EditText)findViewById(R.id.tutorName);
-        tutorName.setText(getIntent().getStringExtra("Tutor_name"));
+//        tutorName = (EditText)findViewById(R.id.tutorName);
+//        tutorName.setText(getIntent().getStringExtra("Tutor_name"));
 
         Venue = (EditText)findViewById(R.id.Venue);
         Venue.setText(getIntent().getStringExtra("Venue"));
@@ -76,7 +80,7 @@ public class CourseView extends AppCompatActivity {
             public void onClick(View view) {
 
                 course_name = coursename.getText().toString();
-                tutor_name = tutorName.getText().toString();
+                tutor_name = getIntent().getStringExtra("Tutor_name");
                 venue = Venue.getText().toString();
                 time = Time.getText().toString();
                 duration = Duration.getText().toString().trim();
@@ -108,10 +112,10 @@ public class CourseView extends AppCompatActivity {
             flag=0;
         }
 
-        if(tutor_name.equalsIgnoreCase("")){
-            tutorName.setError("Enter tutor name");
-            flag=0;
-        }
+//        if(tutor_name.equalsIgnoreCase("")){
+//            tutorName.setError("Enter tutor name");
+//            flag=0;
+//        }
 
 
         if (venue.equalsIgnoreCase("")){
@@ -190,7 +194,7 @@ public class CourseView extends AppCompatActivity {
             Date d1 = new Date();
             Date d2 = formatter.parse(coursedate);
             if(d1.compareTo(d2)>=0){
-                course_date.setError("Can't enter past date");
+                course_date.setError("Can't enter past/today's date");
                 flag=0;
             }
 
@@ -236,7 +240,18 @@ public class CourseView extends AppCompatActivity {
         finish();
 
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
 
+                // app icon in action bar clicked; goto parent activity.
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
     @Override
     public boolean onSupportNavigateUp(){
         finish();
