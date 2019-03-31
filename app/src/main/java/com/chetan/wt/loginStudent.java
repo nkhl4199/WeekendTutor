@@ -119,8 +119,8 @@ public class loginStudent extends Activity {
                                         pb.dismiss();
                                         if(dataSnapshot.exists()) {
                                             Toast.makeText(getApplicationContext(), "Login Successful!", Toast.LENGTH_LONG).show();
-                                            sp.edit().putString("userClass", "Student").apply();
-                                            sp.edit().putBoolean("loginStatus", true).apply();
+                                            //sp.edit().putString("userClass", "Student").apply();
+                                            //sp.edit().putBoolean("loginStatus", true).apply();
 
                                             Intent intent = new Intent(loginStudent.this, CourseList.class);
                                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
