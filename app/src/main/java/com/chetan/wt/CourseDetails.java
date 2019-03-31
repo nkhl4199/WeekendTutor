@@ -20,15 +20,21 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class CourseDetails extends AppCompatActivity {
     TextView name, agenda, date, time, duration, venue, tname;
     Button delete;
     String cid, tid;
     Intent in;
     String sid;
+    Transaction trans_student = new Transaction();
+    Transaction trans_tutor = new Transaction();
     int student_wallet,tutor_wallet,price;
 
-    DatabaseReference reff, notify, temp, tutor;
+    DatabaseReference reff, notify, temp, tutor,trans_stu,trans_tut;
     TutorNotification notification = new TutorNotification();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +69,9 @@ public class CourseDetails extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.child("name").getValue()!=null)
-                notification.setStudent_name(dataSnapshot.child("name").getValue().toString()+" unregistered for ");
+                    notification.setStudent_name(dataSnapshot.child("name").getValue().toString()+" unregistered for ");
                 student_wallet = Integer.parseInt(dataSnapshot.child("wallet").getValue().toString());
+                trans_tutor.setName(dataSnapshot.child("name").getValue().toString());
             }
 
             @Override
@@ -74,13 +81,21 @@ public class CourseDetails extends AppCompatActivity {
         });
 
 
-
         reff = FirebaseDatabase.getInstance().getReference("Student Courses").child(sid).child(cid);
         reff.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getChildrenCount()!=0) {
                     name.setText(dataSnapshot.child("name").getValue().toString());
+
+                    price = Integer.parseInt(dataSnapshot.child("price").getValue().toString());
+                    String tut_price = String.valueOf(price-10);
+                    trans_student.setName(dataSnapshot.child("tname").getValue().toString());
+                    trans_student.setCourse_name(dataSnapshot.child("name").getValue().toString());
+                    trans_tutor.setCourse_name(dataSnapshot.child("name").getValue().toString());
+                    trans_student.setAmount("+"+tut_price+"\nRefunded by ");
+                    trans_tutor.setAmount("-"+tut_price+"\nRefunded to ");
+
                     notification.setCourse_name(dataSnapshot.child("name").getValue().toString()+ " which is on ");
                     agenda.setText(dataSnapshot.child("agenda").getValue().toString());
                     date.setText(dataSnapshot.child("date").getValue().toString());
@@ -90,8 +105,8 @@ public class CourseDetails extends AppCompatActivity {
                     duration.setText(dataSnapshot.child("duration").getValue().toString());
                     venue.setText(dataSnapshot.child("venue").getValue().toString());
                     tid=dataSnapshot.child("tid").getValue().toString();
-                  //  count[0] = Integer.parseInt(dataSnapshot.child("no_of_students").getValue().toString());
-                    price = Integer.parseInt(dataSnapshot.child("price").getValue().toString());
+                    //  count[0] = Integer.parseInt(dataSnapshot.child("no_of_students").getValue().toString());
+
 
                     tutor = FirebaseDatabase.getInstance().getReference("users").child(tid);
                     tutor.addValueEventListener(new ValueEventListener() {
@@ -123,7 +138,7 @@ public class CourseDetails extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 count[0] = Integer.parseInt(dataSnapshot.child("no_of_students").getValue().toString());
-               // Toast.makeText(getApplicationContext(),String.valueOf(count[0]),Toast.LENGTH_LONG).show();
+                // Toast.makeText(getApplicationContext(),String.valueOf(count[0]),Toast.LENGTH_LONG).show();
                 count[0]--;
                 //tut.child("no_of_students").setValue(count[0]);
             }
@@ -151,8 +166,18 @@ public class CourseDetails extends AppCompatActivity {
                         notify = FirebaseDatabase.getInstance().getReference("Tutor Notifications").child(tid);
                         notify.push().setValue(notification);
 
+                        String dt = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+                        trans_student.setDate(dt);
+                        trans_tutor.setDate(dt);
+
+                        trans_stu = FirebaseDatabase.getInstance().getReference("Student Transactions").child(sid);
+                        trans_tut = FirebaseDatabase.getInstance().getReference("Tutor Transactions").child(tid);
+
+                        trans_stu.push().setValue(trans_student);
+                        trans_tut.push().setValue(trans_tutor);
+
                         DatabaseReference del = FirebaseDatabase.getInstance().getReference("Student Courses").child(sid).child(cid);
-                     //  count[0]--;
+                        //  count[0]--;
                         tut.child("no_of_students").setValue(count[0]);
                         //DatabaseReference tu_wallet = FirebaseDatabase.getInstance().getReference("users").child(tid);
                         int t1=tutor_wallet-price+10;
