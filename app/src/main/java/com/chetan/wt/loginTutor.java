@@ -101,8 +101,6 @@ public class loginTutor extends Activity {
 
                                 UserID = fa.getCurrentUser().getUid();
 
-                                //Welcome.loginState = 2;
-
                                 try {
                                     TimeUnit.SECONDS.sleep(2);
                                 } catch (InterruptedException e) {
@@ -131,6 +129,7 @@ public class loginTutor extends Activity {
 
                                     @Override
                                     public void onCancelled(@NonNull DatabaseError databaseError) {
+                                        pb.dismiss();
                                         Toast.makeText(getApplicationContext(), "Error in Login!", Toast.LENGTH_SHORT).show();
                                     }
                                 });
