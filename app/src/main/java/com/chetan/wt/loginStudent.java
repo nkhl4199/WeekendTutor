@@ -102,9 +102,7 @@ public class loginStudent extends Activity {
                             if(task.isSuccessful())
                             {
                                 UserID = fa.getCurrentUser().getUid();
-                                // mAuth.getCurrentUser();
-
-                                //Welcome.loginState = 1;
+                                
                                 try {
                                     TimeUnit.SECONDS.sleep(1);
                                 } catch (InterruptedException e) {
@@ -132,6 +130,7 @@ public class loginStudent extends Activity {
 
                                     @Override
                                     public void onCancelled(@NonNull DatabaseError databaseError) {
+                                        pb.dismiss();
                                         Toast.makeText(getApplicationContext(), "Error in Login!", Toast.LENGTH_SHORT).show();
                                     }
                                 });
