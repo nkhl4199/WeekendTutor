@@ -198,7 +198,7 @@ public class TutorRegistration extends AppCompatActivity {
                                     us.setWallet(0);
                                 }
                                 dbr.child(id).setValue(us);
-                                sp.edit().putString("userClass", "Student").apply();
+                                sp.edit().putString("userClass", "Tutor").apply();
                                 sp.edit().putBoolean("loginStatus", true).apply();
                                 startActivity(intobj);
                             }
