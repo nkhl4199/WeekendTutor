@@ -113,9 +113,8 @@ public class SelectCourse extends AppCompatActivity {
                     trans_tutor.setAmount("+"+dataSnapshot.child("price").getValue().toString()+"\nRecieved from ");
                     course_price = Integer.parseInt(dataSnapshot.child("price").getValue().toString());
                     course.setText(dataSnapshot.child("name").getValue().toString());
-                    trans_student.setCourse_name("for "+dataSnapshot.child("name").getValue().toString());
-                    trans_tutor.setCourse_name("for "+dataSnapshot.child("name").getValue().toString());
-                    trans_tutor.setCourse_name(dataSnapshot.child("name").getValue().toString());
+                    trans_student.setCourse_name(" for "+dataSnapshot.child("name").getValue().toString());
+                    trans_tutor.setCourse_name(" for "+dataSnapshot.child("name").getValue().toString());
                     venue.setText(dataSnapshot.child("venue").getValue().toString());
                     duration.setText(dataSnapshot.child("duration").getValue().toString());
                     agenda.setText(dataSnapshot.child("agenda").getValue().toString());

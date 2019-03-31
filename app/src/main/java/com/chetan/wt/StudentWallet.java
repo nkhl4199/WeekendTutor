@@ -65,16 +65,19 @@ public class StudentWallet extends AppCompatActivity {
         addMoney.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(money.getVisibility()==View.VISIBLE)
-                {
-                    temp = Integer.parseInt(money.getText().toString());
-                    if(walletBalance + temp>100000)
-                        Toast.makeText(getApplicationContext(),"Maximum Wallet Limit is 100000",Toast.LENGTH_SHORT).show();
-                    else{
-                    reff.child("wallet").setValue(walletBalance + temp);
-                    money.setVisibility(View.GONE);
-                    Toast.makeText(getApplicationContext(), "Money Successfully Added", Toast.LENGTH_SHORT).show();
-                }
+                if(money.getVisibility()==View.VISIBLE) {
+                    if (money.getText().toString().length() == 0)
+                        money.setVisibility(View.GONE);
+                    else {
+                        temp = Integer.parseInt(money.getText().toString());
+                        if (walletBalance + temp > 100000)
+                            Toast.makeText(getApplicationContext(), "Maximum Wallet Limit is 100000", Toast.LENGTH_SHORT).show();
+                        else {
+                            reff.child("wallet").setValue(walletBalance + temp);
+                            money.setVisibility(View.GONE);
+                            Toast.makeText(getApplicationContext(), "Money Successfully Added", Toast.LENGTH_SHORT).show();
+                        }
+                    }
                 }
                 else
                     money.setVisibility(View.VISIBLE);

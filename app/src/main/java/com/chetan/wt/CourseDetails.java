@@ -91,8 +91,8 @@ public class CourseDetails extends AppCompatActivity {
                     price = Integer.parseInt(dataSnapshot.child("price").getValue().toString());
                     String tut_price = String.valueOf(price-10);
                     trans_student.setName(dataSnapshot.child("tname").getValue().toString());
-                    trans_student.setCourse_name(dataSnapshot.child("name").getValue().toString());
-                    trans_tutor.setCourse_name(dataSnapshot.child("name").getValue().toString());
+                    trans_student.setCourse_name(" for "+dataSnapshot.child("name").getValue().toString());
+                    trans_tutor.setCourse_name(" for "+dataSnapshot.child("name").getValue().toString());
                     trans_student.setAmount("+"+tut_price+"\nRefunded by ");
                     trans_tutor.setAmount("-"+tut_price+"\nRefunded to ");
 
