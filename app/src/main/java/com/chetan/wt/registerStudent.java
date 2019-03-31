@@ -101,6 +101,7 @@ public class registerStudent extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                pb.show();
                 flag = 0;
                 final Intent Newpage = new Intent(registerStudent.this, loginStudent.class);
 
@@ -205,6 +206,8 @@ public class registerStudent extends AppCompatActivity {
 
                                 pb.dismiss();
                                 Toast.makeText(getApplicationContext(), "Registration Successful", Toast.LENGTH_LONG).show();
+                                Newpage.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                Newpage.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(Newpage);
                             }
                             else {
@@ -218,12 +221,15 @@ public class registerStudent extends AppCompatActivity {
                                 }
 
                                 Intent intent = new Intent(registerStudent.this, loginStudent.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
                             }
                         }
                     });
                 }
                 else {
+                    pb.dismiss();
                     if (!name_matcher.matches()) {
                         name.setError("Invalid Name!!");
                         flag++;
@@ -267,4 +273,6 @@ public class registerStudent extends AppCompatActivity {
 
 
 }
+
+
 
