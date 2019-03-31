@@ -330,6 +330,8 @@ public class ListOfCourseTutor extends AppCompatActivity
             startActivity(i);
 
         } else if (id == R.id.nav_slideshow) {
+            Intent it=new Intent(ListOfCourseTutor.this,TutorWallet.class);
+            startActivity(it);
 
         } else if (id == R.id.Logout) {
             FirebaseAuth fbu=FirebaseAuth.getInstance();
