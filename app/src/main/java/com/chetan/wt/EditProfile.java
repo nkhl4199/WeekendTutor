@@ -100,6 +100,7 @@ public class EditProfile extends AppCompatActivity {
                 emailed.setText(dataSnapshot.getValue(user.class).getEmail());
                 qfed.setText(dataSnapshot.getValue(user.class).getDegree());
                 cityed.setText(dataSnapshot.getValue(user.class).getCity());
+                downloadUrl=dataSnapshot.getValue(user.class).getDurl();
             }
 
             @Override
@@ -181,7 +182,7 @@ public class EditProfile extends AppCompatActivity {
 
 
                     if(flag==0){
-                        us=new user(id,names,emails,qfs,citys);}
+                        us=new user(id,names,emails,qfs,citys,downloadUrl);}
                     else{
                         us=new user(id,names,emails,qfs,citys,downloadUrl);
                     }
