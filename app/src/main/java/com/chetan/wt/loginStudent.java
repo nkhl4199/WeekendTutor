@@ -3,6 +3,7 @@ package com.chetan.wt;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -40,7 +41,8 @@ public class loginStudent extends Activity {
     private FirebaseUser User;
     private DatabaseReference refStud;
     private ProgressDialog pb;
-    private String UserID = null, UserClass="";
+    private String UserID = null;
+    SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +52,7 @@ public class loginStudent extends Activity {
         setContentView(R.layout.activity_login_student);
 
         Intent intent = getIntent();
-        refStud = FirebaseDatabase.getInstance().getReference("Students");
+
 
         final TextView mail = (TextView) findViewById(R.id.emailStu);
         final TextView pass = (TextView) findViewById(R.id.passStu);
@@ -60,6 +62,8 @@ public class loginStudent extends Activity {
 
         mAuth = FirebaseAuth.getInstance();
         fa = FirebaseAuth.getInstance();
+        refStud = FirebaseDatabase.getInstance().getReference("Students");
+        sp = getSharedPreferences("login",MODE_PRIVATE);
 
 
         signup.setOnClickListener(new View.OnClickListener() {
@@ -102,7 +106,7 @@ public class loginStudent extends Activity {
                             if(task.isSuccessful())
                             {
                                 UserID = fa.getCurrentUser().getUid();
-                                
+
                                 try {
                                     TimeUnit.SECONDS.sleep(1);
                                 } catch (InterruptedException e) {
@@ -115,6 +119,8 @@ public class loginStudent extends Activity {
                                         pb.dismiss();
                                         if(dataSnapshot.exists()) {
                                             Toast.makeText(getApplicationContext(), "Login Successful!", Toast.LENGTH_LONG).show();
+                                            sp.edit().putString("userClass", "Student").apply();
+                                            sp.edit().putBoolean("loginStatus", true).apply();
 
                                             Intent intent = new Intent(loginStudent.this, CourseList.class);
                                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -180,4 +186,7 @@ public class loginStudent extends Activity {
     }
 
 }
+
+
+
 
