@@ -3,6 +3,7 @@ package com.chetan.wt;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -39,6 +40,7 @@ public class loginTutor extends Activity {
     private String UserID = "", UserClass;
     Button bu;
     private ProgressDialog pb;
+    SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,7 @@ public class loginTutor extends Activity {
         mAuth = FirebaseAuth.getInstance();
         fa = FirebaseAuth.getInstance();
         refTut = FirebaseDatabase.getInstance().getReference("users");
+        sp = getSharedPreferences("login",MODE_PRIVATE);
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,7 +103,7 @@ public class loginTutor extends Activity {
                             if (task.isSuccessful()) {
 
                                 UserID = fa.getCurrentUser().getUid();
-
+                                
                                 try {
                                     TimeUnit.SECONDS.sleep(2);
                                 } catch (InterruptedException e) {
@@ -114,6 +117,8 @@ public class loginTutor extends Activity {
                                         if(dataSnapshot.exists()){
 
                                             Toast.makeText(getApplicationContext(), "Login Successful!", Toast.LENGTH_LONG).show();
+                                            sp.edit().putString("userClass", "Tutor").apply();
+                                            sp.edit().putBoolean("loginStatus", true).apply();
 
                                             Intent intent = new Intent(loginTutor.this, ListOfCourseTutor.class);
                                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
