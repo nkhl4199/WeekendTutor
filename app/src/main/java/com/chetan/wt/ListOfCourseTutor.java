@@ -340,8 +340,8 @@ public class ListOfCourseTutor extends AppCompatActivity
         } else if (id == R.id.Logout) {
             FirebaseAuth fbu=FirebaseAuth.getInstance();
             fbu.signOut();
-            //sp.edit().putBoolean("loginStatus", false).apply();
-            //sp.edit().putString("userClass", "").apply();
+            sp.edit().putBoolean("loginStatus", false).apply();
+            sp.edit().putString("userClass", "").apply();
             
             Toast.makeText(getApplicationContext(),"logout successful",Toast.LENGTH_SHORT).show();
             Intent it=new Intent(getApplicationContext(),Welcome.class);
