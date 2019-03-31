@@ -341,9 +341,7 @@ public class ListOfCourseTutor extends AppCompatActivity
             Intent it=new Intent(getApplicationContext(),Welcome.class);
             startActivity(it);
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_developers) {
+        }  else if (id == R.id.nav_developers) {
             Intent it=new Intent(ListOfCourseTutor.this,developers.class);
             startActivity(it);
 
