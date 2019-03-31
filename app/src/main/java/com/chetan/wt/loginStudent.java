@@ -130,7 +130,7 @@ public class loginStudent extends Activity {
                                         }
                                         else {
                                             //Log.d("TAG", UserClass);
-                                            Toast.makeText(getApplicationContext(), "Please re-check your credentials!", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getApplicationContext(), "Account does not exist\nPlease re-check your credentials!", Toast.LENGTH_SHORT).show();
                                         }
                                     }
 
