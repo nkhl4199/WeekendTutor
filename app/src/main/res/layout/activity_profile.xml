@@ -4,34 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/book"
     android:fillViewport="true"
     tools:context=".Profile">
+
     <RelativeLayout
+        android:id="@+id/layout1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/layout1">
-        <LinearLayout
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/layout2"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:background="@drawable/book"
-            android:id="@+id/layout2"
-            android:orientation="horizontal">
-        </LinearLayout>
-        <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:clickable="true"
-            app:civ_border_width="3dp"
-            app:civ_border_color="#FFFFFFFF"
+            android:orientation="horizontal" />
+
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/profilephoto"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_below="@+id/layout2"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="-80dp"
+            android:clickable="true"
             android:elevation="5dp"
             android:padding="20dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/user_pro" />
+            android:src="@drawable/user_pro"
+            app:civ_border_color="#FFFFFFFF"
+            app:civ_border_width="3dp" />
 
         <TextView
             android:id="@+id/namedisplay"
@@ -41,80 +43,86 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:gravity="center"
+            android:textColor="@color/common_google_signin_btn_text_dark_default"
             android:textSize="25sp"
             android:textStyle="bold" />
 
         <ImageView
+            android:id="@+id/emailicon"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginTop="20dp"
-            android:id="@+id/emailicon"
             android:layout_below="@id/namedisplay"
+            android:layout_marginTop="20dp"
             android:layout_toLeftOf="@id/emaildisplay"
             android:scaleType="centerCrop"
             android:src="@drawable/email"
 
             />
+
         <TextView
             android:id="@+id/emaildisplay"
-            android:layout_marginTop="22dp"
-            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@id/namedisplay"
             android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            />
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="22dp"
+            android:textColor="@color/common_google_signin_btn_text_dark_default"
+            android:textSize="20sp" />
+
         <ImageView
+            android:id="@+id/graduationicon"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginTop="20dp"
-            android:id="@+id/graduationicon"
             android:layout_below="@id/emailicon"
+            android:layout_marginTop="20dp"
             android:layout_toLeftOf="@id/emaildisplay"
             android:scaleType="centerCrop"
-            android:src="@drawable/graduation"
-            />
+            android:src="@drawable/course1" />
+
         <TextView
             android:id="@+id/degreedisplay"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@id/emailicon"
             android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            />
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/common_google_signin_btn_text_dark_default"
+            android:textSize="20sp" />
+
         <ImageView
+            android:id="@+id/locationicon"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginTop="20dp"
-            android:id="@+id/locationicon"
             android:layout_below="@id/graduationicon"
+            android:layout_marginTop="20dp"
             android:layout_toLeftOf="@id/emaildisplay"
             android:scaleType="centerCrop"
-            android:src="@drawable/location"
-            />
+            android:src="@drawable/location1" />
+
         <TextView
             android:id="@+id/locationdisplay"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="10dp"
-            android:layout_below="@id/graduationicon"
-            android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            />
+            android:layout_below="@id/graduationicon"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/common_google_signin_btn_text_dark_pressed"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/changeAuth"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            android:layout_below="@+id/locationdisplay"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/custom1"
             android:text="Change Authentication Info"
-            android:background="@drawable/buttonstyle"
-            android:layout_alignParentBottom="true"/>
+            android:textColor="@color/common_google_signin_btn_text_dark_default" />
 
         <!--Button
             android:id="@+id/emailbutton"
@@ -131,12 +139,12 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:clickable="true"
-            android:background="@drawable/book"
-            app:backgroundTint="#9900ff"
-            android:src="@drawable/edit"
+            android:layout_marginRight="5dp"
             android:layout_marginBottom="5dp"
-            android:layout_marginRight="5dp"/>
+            android:background="@drawable/book"
+            android:clickable="true"
+            android:src="@drawable/edit"
+            app:backgroundTint="#9900ff" />
         <!--android.support.design.widget.FloatingActionButton
             android:id="@+id/floatingActionButton2"
             android:layout_width="wrap_content"

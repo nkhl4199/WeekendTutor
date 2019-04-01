@@ -3,7 +3,9 @@ package com.chetan.wt;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -81,6 +83,7 @@ public class delete_multiple_courses extends AppCompatActivity {
         });
 
 
+
         String dt = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         trans_stu.setDate(dt);
         trans_tut.setDate(dt);
@@ -89,9 +92,11 @@ public class delete_multiple_courses extends AppCompatActivity {
         final ArrayList<String> myArrayList = new ArrayList<>();
         reff = FirebaseDatabase.getInstance().getReference("Student Courses").child(StudentID);
 
+
         final ArrayList<Integer> total_stu = new ArrayList<>();
         final ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, myArrayList)
         {
+            @RequiresApi(api = Build.VERSION_CODES.P)
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);

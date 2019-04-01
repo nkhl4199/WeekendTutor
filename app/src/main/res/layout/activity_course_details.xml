@@ -112,6 +112,17 @@
                     android:textSize="20sp"
                     android:textStyle="italic" />
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginTop="25dp"
+                    android:gravity="center_vertical"
+                    android:text="Price"
+                    android:textColor="#fff"
+                    android:textSize="20sp"
+                    android:textStyle="italic" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -188,6 +199,17 @@
 
                 <TextView
                     android:id="@+id/Cdate"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginTop="25dp"
+                    android:gravity="center|right"
+                    android:padding="8dp"
+                    android:textColor="#ffff8800"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/Cprice"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_margin="5dp"

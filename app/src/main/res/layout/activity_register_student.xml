@@ -3,118 +3,164 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/book"
     android:orientation="vertical"
-    tools:context=".TutorRegistration"
-    android:background="@drawable/background_gradient"
-    >
-    <TextView
-        android:id="@+id/pagename"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="Student Registration"
-        android:textSize="30dp"
-        />
+    tools:context=".TutorRegistration">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <TextView
         android:id="@+id/nameview"
-        android:layout_below="@id/pagename"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="3dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
-        android:text="Name"/>
-    <EditText
-        android:id="@+id/name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint=""
-        android:layout_below="@id/nameview"
-        />
+        android:text="Name"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
+        android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/nameview"
+            android:layout_marginLeft="10dp"
+            android:ems="10"
+            android:hint=""
+            android:textColor="@color/common_google_signin_btn_text_dark_default" />
+
     <TextView
         android:id="@+id/emailview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="3dp"
-        android:text="Email"/>
-    <EditText
-        android:id="@+id/email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textEmailAddress"
-        android:hint=""
-        android:layout_below="@id/emailview"/>
+        android:layout_marginLeft="10dp"
+        android:text="Email"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
+        android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/emailview"
+            android:layout_marginLeft="10dp"
+            android:ems="10"
+            android:hint=""
+            android:inputType="textEmailAddress"
+            android:textColor="@color/common_google_signin_btn_text_dark_default" />
+
     <TextView
         android:id="@+id/passview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="3dp"
-        android:text="Password"/>
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPassword"
-        android:layout_below="@id/passview"
-        android:hint=""/>
+        android:layout_marginLeft="10dp"
+        android:text="Password"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
+        android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/passview"
+            android:layout_marginLeft="10dp"
+            android:ems="10"
+            android:hint=""
+            android:inputType="textPassword"
+            android:textColor="@color/common_google_signin_btn_text_dark_default" />
+
     <TextView
         android:id="@+id/cpassview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="3dp"
-        android:text="Confirm Password"/>
-    <EditText
-        android:id="@+id/confirmpassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPassword"
-        android:layout_below="@id/cpassview"
-        android:hint=""/>
-    <ImageButton
-        android:id="@+id/stuDp"
-        android:layout_marginRight="10dp"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:src="@drawable/addprofilepic"
-        android:layout_alignRight="@id/name"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/pagename"
-        android:adjustViewBounds="true"
-        android:cropToPadding="true"
-        android:scaleType="centerCrop"/>
+        android:layout_marginLeft="10dp"
+        android:text="Confirm Password"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
+        android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/confirmpassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cpassview"
+            android:layout_marginLeft="10dp"
+            android:ems="10"
+            android:hint=""
+            android:inputType="textPassword"
+            android:textColor="@color/common_google_signin_btn_text_dark_default" />
+
+        <ImageButton
+            android:id="@+id/stuDp"
+            android:layout_marginRight="10dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/addprofilepic"
+            android:layout_alignRight="@id/name"
+            android:layout_alignParentRight="true"
+            android:adjustViewBounds="true"
+            android:cropToPadding="true"
+            android:scaleType="centerCrop"/>
+
     <TextView
         android:id="@+id/qfview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/confirmpassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="3dp"
-        android:text="Qualification"/>
-    <EditText
-        android:id="@+id/qualification"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint=""
-        android:layout_below="@id/qfview"/>
+        android:layout_marginLeft="10dp"
+        android:text="Qualification"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
+        android:textSize="18sp" />
 
-    <Button
-        android:id="@+id/registerbutton"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/pagename"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="400dp"
-        android:layout_marginEnd="25dp"
-        android:background="@drawable/oval_button"
-        android:text="Register" />
+        <EditText
+            android:id="@+id/qualification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/qfview"
+            android:layout_marginLeft="10dp"
+            android:ems="10"
+            android:hint=""
+            android:inputType="textPersonName"
+            android:textColor="@color/common_google_signin_btn_text_dark_pressed" />
 
+        <TextView
+            android:id="@+id/cityview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/qualification"
+            android:layout_marginLeft="10dp"
+            android:text="City (where you would attend classes)"
+            android:textColor="@color/common_google_signin_btn_text_dark_default"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cityview"
+            android:ems="10"
+            android:hint=""
+            android:layout_marginLeft="10dp"
+            android:inputType="textPersonName"
+            android:textColor="@color/common_google_signin_btn_text_dark_pressed" />
+
+        <Button
+            android:id="@+id/registerbutton"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/city"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/custom1"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:text="Register"
+            android:textColor="@color/common_google_signin_btn_text_dark_default" />
+    </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>

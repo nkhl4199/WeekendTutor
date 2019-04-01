@@ -47,6 +47,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -55,6 +56,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import static com.chetan.wt.R.id.nav_image;
 import static com.chetan.wt.R.id.no_courses_found;
 import static com.chetan.wt.R.id.toolbar;
 import static java.io.File.createTempFile;
@@ -127,8 +129,25 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
         final TextView navEmail = (TextView) header.findViewById(R.id.nav_email);
         final ImageView navImage = (ImageView) header.findViewById(R.id.nav_image);
 
+        DatabaseReference reference;
+        reference = FirebaseDatabase.getInstance().getReference("Students");
+        String z = "1";
+        z = user.getUid();
 
-        
+        reference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String imageUri = dataSnapshot.child("durl").getValue().toString();
+                if(imageUri!="")
+                    Picasso.get().load(imageUri).fit().centerCrop().into(navImage);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
 
 
@@ -180,6 +199,8 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
 
         final SearchView search = (SearchView) findViewById(R.id.search);
 
+        pgsBar.setVisibility(View.VISIBLE);
+
         reff.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -195,6 +216,7 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
                 recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
                 recyclerView.setAdapter(myAdapter);
+                pgsBar.setVisibility(View.INVISIBLE);
 
             }
 

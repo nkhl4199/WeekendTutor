@@ -15,7 +15,6 @@
         android:id="@+id/nameview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/pagename"
         android:layout_marginLeft="3dp"
         android:layout_marginTop="10dp"
         android:text="Name"
@@ -65,7 +64,6 @@
         android:src="@drawable/addprofilepic"
         android:layout_alignRight="@id/editSname"
         android:layout_alignParentRight="true"
-        android:layout_below="@id/pagename"
         android:adjustViewBounds="true"
         android:cropToPadding="true"
         android:scaleType="centerCrop"/>

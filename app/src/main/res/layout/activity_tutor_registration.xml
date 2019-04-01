@@ -5,8 +5,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".TutorRegistration"
-    android:background="@drawable/book"
-    >
+    android:background="@drawable/book">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -21,76 +21,86 @@
             /-->
         <TextView
             android:id="@+id/nameview"
-            android:textColor="#ffff"
-            android:layout_below="@id/pagename"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:textSize="22dp"
-            android:text="Name"/>
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:text="Name"
+            android:textColor="#ffff"
+            android:textSize="18sp" />
         <EditText
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:layout_marginLeft="10dp"
             android:hint=""
             android:layout_below="@id/nameview"
             android:textColor="#ffff"
             />
+
         <TextView
             android:id="@+id/emailview"
-            android:textColor="#ffff"
-            android:textSize="22dp"
-            android:layout_below="@id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:text="Email"/>
+            android:layout_below="@id/name"
+            android:layout_marginLeft="10dp"
+            android:text="Email"
+            android:textColor="#ffff"
+            android:textSize="18sp" />
+
         <EditText
             android:id="@+id/email"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textEmailAddress"
-            android:hint=""
             android:layout_below="@id/emailview"
-            android:textColor="#ffff"/>
+            android:ems="10"
+            android:layout_marginLeft="10dp"
+            android:hint=""
+            android:inputType="textEmailAddress"
+            android:textColor="#ffff" />
+
         <TextView
             android:id="@+id/passview"
-            android:textColor="#ffff"
-            android:textSize="22dp"
-            android:layout_below="@id/email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:text="Password"/>
+            android:layout_below="@id/email"
+            android:layout_marginLeft="10dp"
+            android:text="Password"
+            android:textColor="#ffff"
+            android:textSize="18sp" />
+
         <EditText
             android:id="@+id/password"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPassword"
             android:layout_below="@id/passview"
+            android:ems="10"
             android:hint=""
-            android:textColor="#ffff"/>
+            android:layout_marginLeft="10dp"
+            android:inputType="textPassword"
+            android:textColor="#ffff" />
+
         <TextView
             android:id="@+id/cpassview"
-            android:textColor="#ffff"
-            android:textSize="22dp"
-            android:layout_below="@id/password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:text="Confirm Password"/>
+            android:layout_below="@id/password"
+            android:layout_marginLeft="10dp"
+            android:text="Confirm Password"
+            android:textColor="#ffff"
+            android:textSize="18sp" />
+
         <EditText
             android:id="@+id/confirmpassword"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPassword"
             android:layout_below="@id/cpassview"
+            android:ems="10"
             android:hint=""
-            android:textColor="#ffff"/>
+            android:layout_marginLeft="10dp"
+            android:inputType="textPassword"
+            android:textColor="#ffff" />
         <ImageButton
             android:id="@+id/dp"
             android:layout_marginRight="10dp"
@@ -99,60 +109,66 @@
             android:src="@drawable/addprofilepic"
             android:layout_alignRight="@id/name"
             android:layout_alignParentRight="true"
-            android:layout_below="@id/pagename"
             android:adjustViewBounds="true"
             android:cropToPadding="true"
             android:scaleType="centerCrop"/>
+
         <TextView
             android:id="@+id/qfview"
-            android:textColor="#ffff"
-            android:textSize="22dp"
-            android:layout_below="@id/confirmpassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:text="Qualification"/>
+            android:layout_below="@id/confirmpassword"
+            android:layout_marginLeft="10dp"
+            android:text="Qualification"
+
+            android:textColor="#ffff"
+            android:textSize="18sp" />
+
         <EditText
             android:id="@+id/qualification"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint=""
-            android:layout_below="@id/qfview"
-            android:textColor="#ffff"/>
-        <TextView
-            android:id="@+id/cityview"
-            android:textColor="#ffff"
-            android:textSize="22dp"
-            android:layout_below="@id/qualification"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:text="City (where you are available as a tutor)"/>
-        <EditText
-            android:id="@+id/city"
-            android:layout_below="@id/cityview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint=""
-            android:textColor="#ffff"/>
-        <Button
-            android:id="@+id/registerbutton"
-            android:textColor="#ffff"
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Create Account"
-            android:layout_below="@id/city"
-            android:background="@drawable/button_border"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
+            android:layout_below="@id/qfview"
+            android:ems="10"
+            android:layout_marginLeft="10dp"
+            android:hint=""
+            android:inputType="textPersonName"
+            android:textColor="#ffff" />
 
+        <TextView
+            android:id="@+id/cityview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/qualification"
+            android:layout_marginLeft="10dp"
+            android:text="City (where you are available as a tutor)"
+            android:textColor="#ffff"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cityview"
+            android:ems="10"
+            android:hint=""
+            android:layout_marginLeft="10dp"
+            android:inputType="textPersonName"
+            android:textColor="#ffff" />
+
+        <Button
+            android:id="@+id/registerbutton"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/city"
             android:layout_centerHorizontal="true"
-            />
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="4dp"
+            android:background="@drawable/custom1"
+            android:text="Create Account"
+
+            android:textColor="#ffff" />
         <!--Button
             android:id="@+id/backbut"
             android:layout_marginTop="10dp"

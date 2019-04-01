@@ -223,14 +223,13 @@
 
     <Button
         android:id="@+id/Submit"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text="Submit"
-        android:background="@drawable/buttonstyle"
-        android:layout_gravity="center_horizontal|bottom"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
 
-        />
+        android:layout_gravity="center_horizontal|bottom"
+        android:background="@drawable/custom1"
+        android:text="Submit"
+        android:textColor="@color/common_google_signin_btn_text_dark_pressed" />
 
 
 </LinearLayout>

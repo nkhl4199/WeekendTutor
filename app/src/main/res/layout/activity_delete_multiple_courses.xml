@@ -28,9 +28,12 @@
 
     <Button
         android:id="@+id/delete_multiple"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@drawable/buttonstyle"
-        android:text="Delete Selected Courses" />
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/custom1"
+        android:text="Delete Selected Courses"
+        android:textColor="@color/common_google_signin_btn_text_dark_default" />
 </LinearLayout>

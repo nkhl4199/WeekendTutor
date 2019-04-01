@@ -25,7 +25,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class CourseDetails extends AppCompatActivity {
-    TextView name, agenda, date, time, duration, venue, tname;
+    TextView name, agenda, date, time, duration, venue, tname, cprice;
     Button delete;
     String cid, tid;
     Intent in;
@@ -54,6 +54,7 @@ public class CourseDetails extends AppCompatActivity {
         duration = (TextView)findViewById(R.id.Cduration);
         venue = (TextView)findViewById(R.id.Cvenue);
         cid = getIntent().getStringExtra("CourseID");
+        cprice = (TextView) findViewById(R.id.Cprice);
         //Toast.makeText(this,ID,Toast.LENGTH_SHORT).show();
 
 
@@ -105,6 +106,7 @@ public class CourseDetails extends AppCompatActivity {
                     duration.setText(dataSnapshot.child("duration").getValue().toString());
                     venue.setText(dataSnapshot.child("venue").getValue().toString());
                     tid=dataSnapshot.child("tid").getValue().toString();
+                    cprice.setText(dataSnapshot.child("price").getValue().toString());
                     //  count[0] = Integer.parseInt(dataSnapshot.child("no_of_students").getValue().toString());
 
 

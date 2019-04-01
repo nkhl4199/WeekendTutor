@@ -234,25 +234,27 @@
             android:id="@+id/delete"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_margin="5dp"
             android:layout_marginBottom="0dp"
             android:layout_weight="1"
+            android:background="@drawable/custom1"
             android:text="Delete"
-            android:textSize="20sp"
-            android:layout_gravity="center_horizontal|bottom"
-            android:background="@drawable/buttonstyle"
+            android:textColor="@color/common_google_signin_btn_text_dark_default"
 
-            />
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/Submit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Submit"
-            android:textSize="20sp"
             android:layout_gravity="center_horizontal|bottom"
-            android:background="@drawable/buttonstyle"
-            />
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/custom1"
+            android:text="Submit"
+            android:textColor="@color/common_google_signin_btn_text_dark_default"
+            android:textSize="20sp" />
 
     </LinearLayout>
 

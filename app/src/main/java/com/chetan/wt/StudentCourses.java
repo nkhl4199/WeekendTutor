@@ -58,10 +58,6 @@ public class StudentCourses extends AppCompatActivity {
                 View view = super.getView(position, convertView, parent);
                 TextView text = (TextView) view.findViewById(android.R.id.text1);
                 text.setTextColor(Color.WHITE);
-                text.setTextSize(18);
-                text.setLineHeight(100);
-                text.setLastBaselineToBottomHeight(50);
-                text.setFirstBaselineToTopHeight(100);
                 return view;
             }
         };
