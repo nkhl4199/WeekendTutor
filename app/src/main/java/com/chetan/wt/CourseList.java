@@ -128,10 +128,7 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
         final ImageView navImage = (ImageView) header.findViewById(R.id.nav_image);
 
 
-        Data
 
-        reffff = FirebaseDatabase.getInstance().getReference("Students");
-        StudentID = user.getUid();
 
 
 
@@ -151,10 +148,10 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
 //                    navImage.setImageResource(R.drawable.noimage);
 //                }
 //            });
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         ref.child(StudentID).addValueEventListener(new ValueEventListener() {
             @Override
