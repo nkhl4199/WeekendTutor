@@ -69,17 +69,13 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
     MyAdapter myAdapter;
     ArrayAdapter adapter;
     String StudentID="1";
-<<<<<<< HEAD
     ArrayList<String> key = new ArrayList<>();
     ArrayList<String> key1 = new ArrayList<>();
 
     final ArrayList<Course> courselist = new ArrayList<>();
     ArrayList<Course> courselist1 = new ArrayList<>();
     String cid;
-
-=======
     SharedPreferences sp;
->>>>>>> c3a18c0968394961c1a61723e4b4ff7abfd17ad6
 
 
     @Override
@@ -132,26 +128,29 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
         final ImageView navImage = (ImageView) header.findViewById(R.id.nav_image);
 
 
+        Data
+
+        reffff = FirebaseDatabase.getInstance().getReference("Students");
+        StudentID = user.getUid();
 
 
 
-
-        StorageReference mStorageRef = FirebaseStorage.getInstance().getReference();
-        mStorageRef=mStorageRef.child(StudentID+".jpg");
-        File localFile = null;
-        try {
-            localFile = File.createTempFile("images","jpg");
-            mStorageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    navImage.setImageResource(R.drawable.course);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    navImage.setImageResource(R.drawable.noimage);
-                }
-            });
+//        StorageReference mStorageRef = FirebaseStorage.getInstance().getReference();
+//        mStorageRef=mStorageRef.child(StudentID+".jpg");
+//        File localFile = null;
+//        try {
+//            localFile = File.createTempFile("images","jpg");
+//            mStorageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+//                @Override
+//                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+//                    navImage.setImageResource(R.drawable.course);
+//                }
+//            }).addOnFailureListener(new OnFailureListener() {
+//                @Override
+//                public void onFailure(@NonNull Exception e) {
+//                    navImage.setImageResource(R.drawable.noimage);
+//                }
+//            });
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -357,13 +356,9 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
         } else if (id == R.id.logout) {
             FirebaseAuth fbu=FirebaseAuth.getInstance();
             fbu.signOut();
-<<<<<<< HEAD
             //Welcome.loginState = 0;
-=======
             sp.edit().putBoolean("loginStatus", false).apply();
             sp.edit().putString("userClass", "").apply();
-            
->>>>>>> c3a18c0968394961c1a61723e4b4ff7abfd17ad6
             Toast.makeText(getApplicationContext(),"logout successful",Toast.LENGTH_SHORT).show();
             Intent it=new Intent(getApplicationContext(),Welcome.class);
             startActivity(it);
